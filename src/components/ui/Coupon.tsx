@@ -3,8 +3,9 @@
 import { AnimatePresence, motion } from "motion/react";
 import { QRCodeSVG } from "qrcode.react";
 import { createContext, useContext, useState, type ReactNode } from "react";
-import { api, ApiError, type Business } from "@/lib/api";
+import { api, type Business } from "@/lib/api";
 import { useAuth } from "../Auth";
+import { toast } from "@/components/ui/Toast";
 
 type Shown = { code: string; title: string; business: Pick<Business, "name" | "emoji" | "theme"> };
 type Ctx = { claim: (dealId: string, title: string, business: Shown["business"]) => void; show: (s: Shown) => void };
@@ -15,7 +16,6 @@ export const useCoupon = () => useContext(CouponCtx)!;
 export function CouponProvider({ children }: { children: ReactNode }) {
   const { withLogin } = useAuth();
   const [shown, setShown] = useState<Shown | null>(null);
-  const [err, setErr] = useState<string | null>(null);
 
   const claim: Ctx["claim"] = (dealId, title, business) =>
     withLogin(async () => {
@@ -23,8 +23,7 @@ export function CouponProvider({ children }: { children: ReactNode }) {
         const r = await api<{ claim: { code: string } }>(`/api/deals/${dealId}/claim`, { method: "POST" });
         setShown({ code: r.claim.code, title, business });
       } catch (e) {
-        setErr((e as ApiError).message);
-        setTimeout(() => setErr(null), 3000);
+        toast.error(e, { emoji: "🎟️" });
       }
     });
 
@@ -32,11 +31,6 @@ export function CouponProvider({ children }: { children: ReactNode }) {
     <CouponCtx.Provider value={{ claim, show: setShown }}>
       {children}
       <AnimatePresence>
-        {err && (
-          <motion.div initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 40, opacity: 0 }} className="fixed inset-x-0 bottom-6 z-[90] mx-auto w-fit rounded-full bg-ink px-5 py-3 text-sm text-cream shadow-xl">
-            {err}
-          </motion.div>
-        )}
         {shown && (
           <>
             <motion.div className="fixed inset-0 z-[85] bg-black/60 backdrop-blur-sm" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShown(null)} />

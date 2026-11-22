@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { AnimatePresence, motion } from "motion/react";
-import { useCallback, useEffect, useState } from "react";
-import { api, ApiError, type Business, type Event } from "@/lib/api";
+import { motion } from "motion/react";
+import { useEffect, useState } from "react";
+import { api, type Business, type Event } from "@/lib/api";
 import { whenIST } from "@/lib/format";
 import { roundName, SPORTS, sportEmoji, statusLabel, type Match, type Tournament, type TournamentDetail, type TournamentStatus } from "@/lib/host";
 import { useAuth } from "../Auth";
+import { toast } from "@/components/ui/Toast";
 
 const input = "w-full rounded-2xl border-2 border-ink/10 bg-white px-4 py-2.5 outline-none focus:border-saffron";
 
@@ -21,7 +22,7 @@ function Stepper({ v, set }: { v: number; set: (n: number) => void }) {
 }
 
 /** Score entry for one match. Keyed by its saved state, so it resets after each save. */
-function ScoreRow({ m, onSaved, flash }: { m: Match; onSaved: () => void; flash: (s: string) => void }) {
+function ScoreRow({ m, onSaved }: { m: Match; onSaved: () => void }) {
   const [a, setA] = useState(m.scoreA ?? 0);
   const [b, setB] = useState(m.scoreB ?? 0);
   const [busy, setBusy] = useState(false);
@@ -31,7 +32,7 @@ function ScoreRow({ m, onSaved, flash }: { m: Match; onSaved: () => void; flash:
       await api(`/api/host/matches/${m._id}/score`, { body: { scoreA: a, scoreB: b, status } });
       onSaved();
     } catch (e) {
-      flash((e as ApiError).message);
+      toast.error(e);
     } finally {
       setBusy(false);
     }
@@ -57,7 +58,7 @@ function ScoreRow({ m, onSaved, flash }: { m: Match; onSaved: () => void; flash:
   );
 }
 
-function CreateTournament({ onCreated, flash }: { onCreated: (slug: string) => void; flash: (s: string) => void }) {
+function CreateTournament({ onCreated }: { onCreated: (slug: string) => void }) {
   const [venues, setVenues] = useState<Business[]>([]);
   const [f, setF] = useState({ title: "", sport: "cricket", format: "knockout", startsAt: "", entryFee: 500, teamSize: 6, maxTeams: 8, prizes: "", rules: "", venueId: "" });
   const [busy, setBusy] = useState(false);
@@ -88,9 +89,9 @@ function CreateTournament({ onCreated, flash }: { onCreated: (slug: string) => v
           });
           set({ title: "", prizes: "", rules: "" });
           onCreated(r.tournament.slug);
-          flash("Tournament created. Registrations are open.");
+          toast.success("Tournament created", { emoji: "🏆", description: "Registrations are open.", celebrate: true });
         } catch (x) {
-          flash((x as ApiError).message);
+          toast.error(x);
         } finally {
           setBusy(false);
         }
@@ -140,7 +141,7 @@ function CreateTournament({ onCreated, flash }: { onCreated: (slug: string) => v
   );
 }
 
-function StallGrid({ flash }: { flash: (s: string) => void }) {
+function StallGrid() {
   const [events, setEvents] = useState<Event[]>([]);
   const [f, setF] = useState({ slug: "", rows: 2, cols: 6, price: 1500, size: "small" });
   useEffect(() => {
@@ -158,9 +159,9 @@ function StallGrid({ flash }: { flash: (s: string) => void }) {
         e.preventDefault();
         try {
           const r = await api<{ stalls: number }>(`/api/host/events/${f.slug}/stalls`, { body: { rows: f.rows, cols: f.cols, price: f.price, size: f.size } });
-          flash(`${r.stalls} stalls are live on the event page.`);
+          toast.success(`${r.stalls} stalls are live`, { emoji: "🍢", description: "Merchants can book them on the event page." });
         } catch (x) {
-          flash((x as ApiError).message);
+          toast.error(x);
         }
       }}
     >
@@ -188,15 +189,10 @@ export default function HostConsole() {
   const [sel, setSel] = useState<string | null>(null);
   const [detail, setDetail] = useState<TournamentDetail | null>(null);
   const [shuffle, setShuffle] = useState(false);
-  const [msg, setMsg] = useState<string | null>(null);
   const [tick, setTick] = useState(0);
   const allowed = user?.role === "organizer" || user?.role === "merchant" || user?.role === "admin";
   const canStalls = user?.role === "organizer" || user?.role === "admin";
 
-  const flash = useCallback((m: string) => {
-    setMsg(m);
-    setTimeout(() => setMsg(null), 3000);
-  }, []);
 
   useEffect(() => {
     if (!allowed) return;
@@ -271,7 +267,7 @@ export default function HostConsole() {
                         await api(`/api/host/tournaments/${t.slug}/status`, { body: { status: s } });
                         reload();
                       } catch (x) {
-                        flash((x as ApiError).message);
+                        toast.error(x);
                       }
                     }}
                     className={`relative rounded-full px-3 py-1.5 text-sm font-semibold ${t.status === s ? "text-cream" : "text-ink/60"}`}
@@ -288,10 +284,10 @@ export default function HostConsole() {
                   onClick={async () => {
                     try {
                       const r = await api<{ matches: number }>(`/api/host/tournaments/${t.slug}/fixtures`, { body: { shuffle } });
-                      flash(`${r.matches} fixtures generated.`);
+                      toast.success(`${r.matches} fixtures generated`, { emoji: "📋" });
                       reload();
                     } catch (x) {
-                      flash((x as ApiError).message);
+                      toast.error(x);
                     }
                   }}
                   className="rounded-xl bg-saffron px-4 py-2 text-sm font-semibold text-white"
@@ -308,7 +304,7 @@ export default function HostConsole() {
                         <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-ink/45">{roundName(i + 1, rounds, t.format)}</p>
                         <div className="grid gap-2 md:grid-cols-2">
                           {ms.map((m) => (
-                            <ScoreRow key={`${m._id}-${m.scoreA}-${m.scoreB}-${m.status}-${m.teamA?._id}-${m.teamB?._id}`} m={m} onSaved={reload} flash={flash} />
+                            <ScoreRow key={`${m._id}-${m.scoreA}-${m.scoreB}-${m.status}-${m.teamA?._id}-${m.teamB?._id}`} m={m} onSaved={reload} />
                           ))}
                         </div>
                       </div>
@@ -323,7 +319,7 @@ export default function HostConsole() {
           <div className="rounded-3xl bg-white p-6">
             <h2 className="mb-4 font-display text-2xl font-bold">Create a tournament</h2>
             <CreateTournament
-              flash={flash}
+             
               onCreated={(slug) => {
                 setSel(slug);
                 reload();
@@ -335,19 +331,12 @@ export default function HostConsole() {
             <div className="rounded-3xl bg-white p-6">
               <h2 className="font-display text-2xl font-bold">Sell stalls at an event</h2>
               <p className="mb-4 text-sm text-ink/55">Food trucks and stalls book and pay on the event page.</p>
-              <StallGrid flash={flash} />
+              <StallGrid />
             </div>
           )}
         </section>
       </div>
 
-      <AnimatePresence>
-        {msg && (
-          <motion.div initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 40, opacity: 0 }} className="fixed inset-x-0 bottom-24 z-50 mx-auto w-fit max-w-[90vw] rounded-full bg-ink px-5 py-3 text-sm text-cream shadow-xl md:bottom-6">
-            {msg}
-          </motion.div>
-        )}
-      </AnimatePresence>
     </main>
   );
 }

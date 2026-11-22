@@ -81,6 +81,15 @@ body {
   }
 }
 
+@keyframes toast-bar {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
 @keyframes marquee {
   to {
     transform: translateX(-50%);

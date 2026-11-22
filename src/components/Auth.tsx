@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { api, ApiError, getToken, setToken, type User } from "@/lib/api";
+import { toast } from "@/components/ui/Toast";
 
 type Ctx = {
   user: User | null;
@@ -98,6 +99,7 @@ function LoginForm({ onClose, onDone }: { onClose: () => void; onDone: (u: User)
       const r = await api<{ token: string; user: User }>("/api/auth/verify", { body: { phone, code, name: name || undefined }, auth: false });
       setToken(r.token);
       onDone(r.user);
+      toast.success(r.user.name ? `Welcome, ${r.user.name.split(" ")[0]}!` : "You're logged in", { emoji: "👋", duration: 2400 });
     } catch (e) {
       setErr((e as ApiError).message);
     } finally {

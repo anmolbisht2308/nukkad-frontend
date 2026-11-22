@@ -8,6 +8,7 @@ import { useCity } from "@/components/City";
 import { api, ApiError, type Business } from "@/lib/api";
 import { compact } from "@/lib/format";
 import type { Creator } from "@/lib/social";
+import { toast } from "@/components/ui/Toast";
 
 
 const NICHES = ["all", "food", "cafes", "desserts", "fitness", "running", "rides", "travel"];
@@ -48,6 +49,7 @@ function HireSheet({ creator, onClose }: { creator: Creator; onClose: () => void
               try {
                 await api("/api/campaigns", { body: { businessId, creatorId: creator._id, brief, budget } });
                 setState("done");
+                toast.success(`Request sent to @${creator.handle}`, { emoji: "📸" });
               } catch (x) {
                 setErr((x as ApiError).message);
                 setState("idle");
@@ -139,7 +141,7 @@ export default function Creators() {
                 <div className="rounded-xl bg-cream py-2"><p className="font-display font-bold">{c.completed}</p><p className="text-[10px] text-ink/50">campaigns</p></div>
               </div>
               <button
-                onClick={() => (user ? (isBiz ? setHire(c) : alert("Log in with a business account to hire creators.")) : withLogin())}
+                onClick={() => (user ? (isBiz ? setHire(c) : toast.info("Business accounts only", { description: "Log in with a business account to hire creators." })) : withLogin())}
                 className="btn-primary mt-4 w-full"
               >
                 Hire for a campaign

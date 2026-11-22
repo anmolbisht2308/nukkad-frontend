@@ -3,11 +3,12 @@
 import Link from "next/link";
 import { motion } from "motion/react";
 import { useState } from "react";
-import { api, assetUrl, ApiError, type Business, type Deal, type Event } from "@/lib/api";
+import { api, assetUrl, type Business, type Deal, type Event } from "@/lib/api";
 import { compact, kindLabel, timeIST, untilIST, whenIST } from "@/lib/format";
 import { useAuth } from "../Auth";
 import { useCoupon } from "../ui/Coupon";
 import { Countdown } from "../ui/Countdown";
+import { toast } from "@/components/ui/Toast";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 export const cardIn = (i: number) => ({
@@ -74,9 +75,14 @@ export function OpeningCard({ b, i }: { b: Business; i: number }) {
         <button
           onClick={() =>
             withLogin(async () => {
-              const r = await api<{ added: boolean }>(`/api/businesses/${b.slug}/notify`, { method: "POST" });
-              setDone(true);
-              if (r.added) setCount((c) => c + 1);
+              try {
+                const r = await api<{ added: boolean }>(`/api/businesses/${b.slug}/notify`, { method: "POST" });
+                setDone(true);
+                if (r.added) setCount((c) => c + 1);
+                toast.success(`We'll ping you when ${b.name} opens`, { emoji: "🔔" });
+              } catch (x) {
+                toast.error(x);
+              }
             })
           }
           className={`mt-4 w-full rounded-2xl py-2.5 text-sm font-semibold transition ${done ? "bg-mint text-ink" : "bg-white/10 hover:bg-white/20"}`}
@@ -135,7 +141,6 @@ export function EventCard({ e, i }: { e: Event; i: number }) {
   const { withLogin } = useAuth();
   const [going, setGoing] = useState(false);
   const [count, setCount] = useState(e.rsvpCount);
-  const [err, setErr] = useState<string | null>(null);
   return (
     <motion.div {...cardIn(i)} className="flex items-center gap-4 rounded-3xl bg-white p-4 shadow-[0_16px_40px_-28px_rgba(0,0,0,0.35)]">
       <div className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-cream text-3xl">{e.emoji}</div>
@@ -143,7 +148,6 @@ export function EventCard({ e, i }: { e: Event; i: number }) {
         <p className="text-xs font-semibold uppercase tracking-wide text-saffron">{whenIST(e.startsAt)}</p>
         <Link href={`/events/${e.slug}`} className="font-display text-lg font-bold leading-tight hover:underline">{e.title}</Link>
         <p className="truncate text-sm text-ink/55">📍 {e.venue} · {kindLabel[e.kind]} · {e.price ? `₹${e.price}` : "Free"}</p>
-        {err && <p className="text-xs text-chili">{err}</p>}
       </div>
       <motion.button
         whileTap={{ scale: 0.9 }}
@@ -153,8 +157,10 @@ export function EventCard({ e, i }: { e: Event; i: number }) {
               const r = await api<{ going: boolean }>(`/api/events/${e.slug}/rsvp`, { method: "POST" });
               setGoing(r.going);
               setCount((c) => c + (r.going ? 1 : -1));
+              if (r.going) toast.success("You're in!", { emoji: e.emoji, description: `${e.title} · ${whenIST(e.startsAt)}` });
+              else toast.info("RSVP removed", { description: e.title });
             } catch (x) {
-              setErr((x as ApiError).message);
+              toast.error(x);
             }
           })
         }

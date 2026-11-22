@@ -7,6 +7,7 @@ import { useAuth } from "@/components/Auth";
 import { api, ApiError, type Theme } from "@/lib/api";
 import { rupees } from "@/lib/pay";
 import { dateChip, hourLabel, longDate, nextDays, rangeLabel, SPORT_META, type Court, type Sport } from "@/lib/play";
+import { toast } from "@/components/ui/Toast";
 
 type CalBooking = {
   _id: string;
@@ -52,7 +53,6 @@ function SummaryCard({ n, label, accent }: { n: string | number; label: string; 
 
 function CourtEditor({ court, onSaved }: { court: Court; onSaved: () => void }) {
   const [f, setF] = useState({ pricePerHour: court.pricePerHour, peakPricePerHour: court.peakPricePerHour, peakFrom: court.peakFrom, peakTo: court.peakTo, openHour: court.openHour, closeHour: court.closeHour, active: court.active });
-  const [msg, setMsg] = useState<string | null>(null);
   const num = (k: keyof typeof f) => (e: React.ChangeEvent<HTMLInputElement>) => setF({ ...f, [k]: Number(e.target.value) });
   const cell = "w-full rounded-xl border-2 border-ink/10 bg-white px-2 py-1.5 text-sm outline-none focus:border-saffron";
   return (
@@ -62,12 +62,11 @@ function CourtEditor({ court, onSaved }: { court: Court; onSaved: () => void }) 
         e.preventDefault();
         try {
           await api(`/api/venue/courts/${court._id}`, { method: "PATCH", body: f });
-          setMsg("Saved ✓");
+          toast.success(`${court.name} saved`, { description: `₹${f.pricePerHour}/hr · peak ₹${f.peakPricePerHour}/hr` });
           onSaved();
         } catch (x) {
-          setMsg((x as ApiError).message);
+          toast.error(x);
         }
-        setTimeout(() => setMsg(null), 2000);
       }}
     >
       <div className="col-span-2 sm:col-span-1">
@@ -80,7 +79,7 @@ function CourtEditor({ court, onSaved }: { court: Court; onSaved: () => void }) 
       <label>Peak to<input type="number" min={0} max={24} value={f.peakTo} onChange={num("peakTo")} className={cell} /></label>
       <label>Opens<input type="number" min={0} max={23} value={f.openHour} onChange={num("openHour")} className={cell} /></label>
       <label>Closes<input type="number" min={1} max={24} value={f.closeHour} onChange={num("closeHour")} className={cell} /></label>
-      <button className="col-span-2 rounded-xl bg-ink px-3 py-2 text-sm font-semibold text-cream sm:col-span-1">{msg ?? "Save"}</button>
+      <button className="col-span-2 rounded-xl bg-ink px-3 py-2 text-sm font-semibold text-cream sm:col-span-1">Save</button>
     </form>
   );
 }
@@ -98,7 +97,6 @@ export default function VenueDashboard() {
   const [tick, setTick] = useState(0);
   const [modal, setModal] = useState<Modal | null>(null);
   const [showPricing, setShowPricing] = useState(false);
-  const [toast, setToast] = useState<string | null>(null);
 
   // modal form state
   const [mode, setMode] = useState<"walkin" | "block">("walkin");
@@ -128,10 +126,6 @@ export default function VenueDashboard() {
   }, [venueId, date, tick, allowed]);
 
   const reload = () => setTick((t) => t + 1);
-  const flash = (m: string) => {
-    setToast(m);
-    setTimeout(() => setToast(null), 2200);
-  };
   const venue = venues?.find((v) => v._id === venueId);
   const view = cal?.date === date ? cal : null;
   const hoursRange = view && view.courts.length ? Array.from(new Set(view.courts.flatMap((c) => c.slots.map((s) => s.hour)))).sort((a, b) => a - b) : [];
@@ -158,7 +152,8 @@ export default function VenueDashboard() {
       if (mode === "walkin") await api("/api/venue/walkin", { body: { ...base, name: name || "Walk-in", phone: phone || undefined, paid } });
       else await api("/api/venue/block", { body: { ...base, reason } });
       setModal(null);
-      flash(mode === "walkin" ? "Walk-in added" : "Slot blocked");
+      if (mode === "walkin") toast.success("Walk-in added", { emoji: "🏏", description: `${modal.courtName} · ${hours}h` });
+      else toast.success("Slot blocked", { emoji: "🚧", description: `${modal.courtName} · ${reason}` });
       reload();
     } catch (x) {
       setErr((x as ApiError).message);
@@ -170,7 +165,9 @@ export default function VenueDashboard() {
     try {
       await api(`/api/venue/bookings/${b._id}`, { method: "PATCH", body: { status } });
       setModal(null);
-      flash(status === "completed" ? "Marked as played" : status === "no_show" ? "Marked no-show" : "Cancelled, slot freed");
+      if (status === "completed") toast.success("Marked as played", { emoji: "✅" });
+      else if (status === "no_show") toast.info("Marked as no-show", { emoji: "👻" });
+      else toast.info("Booking cancelled", { description: "The slot is free again." });
       reload();
     } catch (x) {
       setErr((x as ApiError).message);
@@ -399,13 +396,6 @@ export default function VenueDashboard() {
         )}
       </AnimatePresence>
 
-      <AnimatePresence>
-        {toast && (
-          <motion.div initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 40, opacity: 0 }} className="fixed inset-x-0 bottom-24 z-50 mx-auto w-fit rounded-full bg-ink px-5 py-3 text-sm text-cream shadow-xl">
-            {toast}
-          </motion.div>
-        )}
-      </AnimatePresence>
     </main>
   );
 }

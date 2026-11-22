@@ -3,11 +3,12 @@
 import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
-import { api, ApiError } from "@/lib/api";
+import { api } from "@/lib/api";
 import { whenIST } from "@/lib/format";
 import { gradient, SPORT_META, type Game, type Sport, type VenueCard } from "@/lib/play";
 import { rupees } from "@/lib/pay";
 import { useAuth } from "../Auth";
+import { toast } from "@/components/ui/Toast";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const FILTERS: (Sport | "all")[] = ["all", "cricket", "football", "pickleball", "badminton"];
@@ -47,17 +48,16 @@ function VenueTile({ v, i }: { v: VenueCard; i: number }) {
 
 function GameRow({ g, i, onChange }: { g: Game; i: number; onChange: () => void }) {
   const { withLogin } = useAuth();
-  const [err, setErr] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const join = () =>
     withLogin(async () => {
       setBusy(true);
-      setErr(null);
       try {
         await api(`/api/play/games/${g._id}/join`, { method: "POST" });
+        toast.success("You're in the game!", { emoji: "🙌", description: "The host has been notified. Pay your share at the venue.", celebrate: true });
         onChange();
       } catch (e) {
-        setErr((e as ApiError).message);
+        toast.error(e);
       } finally {
         setBusy(false);
       }
@@ -82,7 +82,6 @@ function GameRow({ g, i, onChange }: { g: Game; i: number; onChange: () => void 
           ))}
           <span className="ml-1 text-xs text-ink/50">{g.spotsLeft ? `${g.spotsLeft} spot${g.spotsLeft > 1 ? "s" : ""} left` : "Full"}</span>
         </div>
-        {err && <p className="text-xs text-chili">{err}</p>}
       </div>
       {g.isHost ? (
         <span className="shrink-0 rounded-2xl bg-ink/5 px-3 py-2 text-xs font-semibold">Your game</span>

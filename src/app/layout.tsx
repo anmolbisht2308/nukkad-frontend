@@ -4,6 +4,7 @@ import { Bricolage_Grotesque, Inter } from "next/font/google";
 import { AuthProvider } from "@/components/Auth";
 import { Header } from "@/components/Header";
 import { CouponProvider } from "@/components/ui/Coupon";
+import { Toaster } from "@/components/ui/Toast";
 import { CityProvider } from "@/components/City";
 import { LangProvider } from "@/components/Lang";
 import { BRAND } from "@/lib/brand";
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               <Header />
             </Suspense>
             {children}
+            <Toaster />
           </CouponProvider>
           </CityProvider>
         </AuthProvider>

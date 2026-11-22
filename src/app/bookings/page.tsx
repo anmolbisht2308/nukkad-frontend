@@ -8,6 +8,7 @@ import { api, ApiError } from "@/lib/api";
 import { mapsLink } from "@/lib/format";
 import { rupees } from "@/lib/pay";
 import { gradient, longDate, rangeLabel, SPORT_META, whatsappShare, type Booking } from "@/lib/play";
+import { toast } from "@/components/ui/Toast";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const statusChip: Record<Booking["status"], string> = {
@@ -41,6 +42,7 @@ function HostForm({ b, onDone }: { b: Booking; onDone: () => void }) {
             setErr(null);
             try {
               await api("/api/play/games", { body: { bookingId: b._id, spots, pricePerHead: price, skill, note: note || undefined } });
+              toast.success("Open game posted", { emoji: "🙋", description: `Looking for ${spots} player${spots > 1 ? "s" : ""}. We'll notify you as they join.` });
               onDone();
             } catch (x) {
               setErr((x as ApiError).message);
@@ -72,7 +74,6 @@ function HostForm({ b, onDone }: { b: Booking; onDone: () => void }) {
 }
 
 function BookingCard({ b, i, reload }: { b: Booking; i: number; reload: () => void }) {
-  const [err, setErr] = useState<string | null>(null);
   const label = `${longDate(b.date)}, ${rangeLabel(b.startHour, b.hours)}`;
   const live = b.status === "confirmed" && b.upcoming;
   const friends = b.participants.slice(1);
@@ -145,12 +146,12 @@ function BookingCard({ b, i, reload }: { b: Booking; i: number; reload: () => vo
               <button
                 onClick={async () => {
                   if (!window.confirm("Cancel this booking? Free cancellation up to 2 hours before start.")) return;
-                  setErr(null);
                   try {
                     await api(`/api/play/bookings/${b._id}/cancel`, { method: "POST" });
+                    toast.info("Booking cancelled", { description: `${b.business.name} · ${label}` });
                     reload();
                   } catch (x) {
-                    setErr((x as ApiError).message);
+                    toast.error(x);
                   }
                 }}
                 className="flex-1 rounded-2xl py-2.5 text-sm font-semibold text-chili hover:bg-chili/5"
@@ -159,7 +160,6 @@ function BookingCard({ b, i, reload }: { b: Booking; i: number; reload: () => vo
               </button>
             </div>
           )}
-          {err && <p className="mt-2 text-xs text-chili">{err}</p>}
         </div>
       )}
     </motion.div>

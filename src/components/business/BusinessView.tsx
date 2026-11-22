@@ -8,6 +8,7 @@ import { compact, kindLabel, mapsLink, untilIST, whenIST } from "@/lib/format";
 import { useAuth } from "../Auth";
 import { useCoupon } from "../ui/Coupon";
 import { Countdown } from "../ui/Countdown";
+import { toast } from "@/components/ui/Toast";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 type Me = { following: boolean; notified: boolean; claims: Record<string, string> };
@@ -29,16 +30,27 @@ export default function BusinessView({ business: b, deals }: { business: Busines
 
   const follow = () =>
     withLogin(async () => {
-      const r = await api<{ following: boolean }>(`/api/businesses/${b.slug}/follow`, { method: "POST" });
-      setMe((m) => ({ ...(m ?? { notified: false, claims: {} }), following: r.following }));
-      setFollowers((n) => n + (r.following ? 1 : -1));
+      try {
+        const r = await api<{ following: boolean }>(`/api/businesses/${b.slug}/follow`, { method: "POST" });
+        setMe((m) => ({ ...(m ?? { notified: false, claims: {} }), following: r.following }));
+        setFollowers((n) => n + (r.following ? 1 : -1));
+        if (r.following) toast.success(`Following ${b.name}`, { emoji: b.emoji, description: "You'll hear when they go live or drop a deal." });
+        else toast.info(`Unfollowed ${b.name}`);
+      } catch (x) {
+        toast.error(x);
+      }
     });
 
   const notify = () =>
     withLogin(async () => {
-      const r = await api<{ added: boolean }>(`/api/businesses/${b.slug}/notify`, { method: "POST" });
-      setMe((m) => ({ ...(m ?? { following: false, claims: {} }), notified: true }));
-      if (r.added) setNotifyCount((n) => n + 1);
+      try {
+        const r = await api<{ added: boolean }>(`/api/businesses/${b.slug}/notify`, { method: "POST" });
+        setMe((m) => ({ ...(m ?? { following: false, claims: {} }), notified: true }));
+        if (r.added) setNotifyCount((n) => n + 1);
+        toast.success(`We'll ping you when ${b.name} opens`, { emoji: "🔔" });
+      } catch (x) {
+        toast.error(x);
+      }
     });
 
   return (

@@ -3,11 +3,12 @@
 import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
-import { api, ApiError, type Business } from "@/lib/api";
+import { api, type Business } from "@/lib/api";
 import { kindLabel, mapsLink, timeIST, whenIST } from "@/lib/format";
 import { eventTheme, type EventDetail, type Stall } from "@/lib/host";
 import { pay, rupees, type PaymentOrder } from "@/lib/pay";
 import { useAuth } from "../Auth";
+import { toast } from "@/components/ui/Toast";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -18,7 +19,6 @@ function StallMap({ slug, title }: { slug: string; title: string }) {
   const [picked, setPicked] = useState<Stall | null>(null);
   const [biz, setBiz] = useState<string>("");
   const [busy, setBusy] = useState(false);
-  const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
   const [tick, setTick] = useState(0);
   const isMerchant = user?.role === "merchant" || user?.role === "admin";
 
@@ -43,18 +43,17 @@ function StallMap({ slug, title }: { slug: string; title: string }) {
   const book = async () => {
     if (!picked || !biz) return;
     setBusy(true);
-    setMsg(null);
     try {
       const r = await api<{ stall: Stall; order?: PaymentOrder }>(`/api/host/stalls/${picked._id}/book`, { body: { businessId: biz } });
       if (r.order) {
         const proof = await pay(r.order, { name: title, description: `Stall ${picked.label}` });
         await api(`/api/host/stalls/${picked._id}/confirm`, { body: { proof } });
       }
-      setMsg({ ok: true, text: `Stall ${picked.label} is yours! See you there.` });
+      toast.success(`Stall ${picked.label} is yours!`, { emoji: "🍢", description: "See you at the event.", celebrate: true });
       setPicked(null);
       setTick((x) => x + 1);
     } catch (e) {
-      setMsg({ ok: false, text: (e as ApiError).message });
+      toast.error(e);
       setTick((x) => x + 1);
     } finally {
       setBusy(false);
@@ -140,7 +139,6 @@ function StallMap({ slug, title }: { slug: string; title: string }) {
           </motion.div>
         )}
       </AnimatePresence>
-      {msg && <p className={`mt-3 text-sm font-medium ${msg.ok ? "text-emerald-600" : "text-chili"}`}>{msg.text}</p>}
     </section>
   );
 }
@@ -148,7 +146,6 @@ function StallMap({ slug, title }: { slug: string; title: string }) {
 export default function EventView({ initial }: { initial: EventDetail }) {
   const { user, withLogin } = useAuth();
   const [fresh, setFresh] = useState<EventDetail | null>(null);
-  const [err, setErr] = useState<string | null>(null);
   const d = fresh ?? initial;
   const e = d.event;
   const theme = eventTheme[e.kind] ?? { from: "#FF7A1A", to: "#FF2E63" };
@@ -161,12 +158,13 @@ export default function EventView({ initial }: { initial: EventDetail }) {
 
   const rsvp = () =>
     withLogin(async () => {
-      setErr(null);
       try {
         const r = await api<{ going: boolean }>(`/api/events/${e.slug}/rsvp`, { method: "POST" });
         setFresh({ ...d, going: r.going, event: { ...e, rsvpCount: e.rsvpCount + (r.going ? 1 : -1) } });
+        if (r.going) toast.success("You're in!", { emoji: e.emoji ?? "🎉", description: `${e.title} · we'll remind you before it starts.` });
+        else toast.info("RSVP removed", { description: e.title });
       } catch (x) {
-        setErr((x as ApiError).message);
+        toast.error(x);
       }
     });
 
@@ -212,7 +210,6 @@ export default function EventView({ initial }: { initial: EventDetail }) {
             <motion.button whileTap={{ scale: 0.96 }} onClick={rsvp} className={`mt-4 w-full rounded-2xl py-3.5 font-semibold transition ${d.going ? "bg-mint text-ink" : "bg-ink text-cream"}`}>
               {d.going ? "✓ You're going (tap to cancel)" : "I'm in"}
             </motion.button>
-            {err && <p className="mt-2 text-sm text-chili">{err}</p>}
             {e.location && (
               <a href={mapsLink(e.location.coordinates)} target="_blank" rel="noreferrer" className="mt-2 block rounded-2xl bg-ink/5 py-3 text-center font-semibold">
                 Directions

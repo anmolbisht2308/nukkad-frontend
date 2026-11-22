@@ -3,8 +3,9 @@
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/components/Auth";
-import { api, ApiError, type Theme } from "@/lib/api";
+import { api, type Theme } from "@/lib/api";
 import type { Creator } from "@/lib/social";
+import { toast } from "@/components/ui/Toast";
 
 type Campaign = {
   _id: string;
@@ -30,7 +31,6 @@ export default function CreatorStudio() {
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [loaded, setLoaded] = useState(false);
   const [form, setForm] = useState({ handle: "", name: "", platform: "instagram", followers: 1000, niches: "food", area: "", ratePerPost: 1000, bio: "" });
-  const [msg, setMsg] = useState<string | null>(null);
   const [urls, setUrls] = useState<Record<string, string>>({});
 
   const load = () =>
@@ -60,11 +60,10 @@ export default function CreatorStudio() {
     try {
       await fn();
       await load();
-      setMsg(ok);
+      toast.success(ok);
     } catch (e) {
-      setMsg((e as ApiError).message);
+      toast.error(e);
     }
-    setTimeout(() => setMsg(null), 2500);
   };
 
   return (
@@ -82,7 +81,7 @@ export default function CreatorStudio() {
                 api("/api/creators/me", {
                   body: { ...form, followers: Number(form.followers), ratePerPost: Number(form.ratePerPost), niches: form.niches.split(",").map((s) => s.trim()).filter(Boolean), area: form.area || undefined, bio: form.bio || undefined },
                 }),
-              "Profile saved. You're listed in the marketplace."
+              "Profile saved — you're in the marketplace"
             );
           }}
         >
@@ -126,7 +125,7 @@ export default function CreatorStudio() {
                 )}
                 {c.status === "requested" && (
                   <div className="mt-3 flex gap-2">
-                    <button onClick={() => act(() => api(`/api/campaigns/${c._id}/respond`, { body: { accept: true } }), "Accepted. Your tracked deal is live.")} className="btn-primary flex-1 py-2.5">Accept</button>
+                    <button onClick={() => act(() => api(`/api/campaigns/${c._id}/respond`, { body: { accept: true } }), "Accepted! Your tracked deal is live")} className="btn-primary flex-1 py-2.5">Accept</button>
                     <button onClick={() => act(() => api(`/api/campaigns/${c._id}/respond`, { body: { accept: false } }), "Declined")} className="flex-1 rounded-2xl bg-ink/5 py-2.5 font-semibold">Decline</button>
                   </div>
                 )}
@@ -147,11 +146,6 @@ export default function CreatorStudio() {
           </div>
         </section>
       </div>
-      {msg && (
-        <motion.div initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="fixed inset-x-0 bottom-20 z-50 mx-auto w-fit rounded-full bg-ink px-5 py-3 text-sm text-cream shadow-xl md:bottom-6">
-          {msg}
-        </motion.div>
-      )}
     </main>
   );
 }

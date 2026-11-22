@@ -6,6 +6,7 @@ import { useAuth } from "@/components/Auth";
 import Link from "next/link";
 import { api, assetUrl, ApiError, isLive, type Business, type Deal } from "@/lib/api";
 import { untilIST, whenIST } from "@/lib/format";
+import { toast } from "@/components/ui/Toast";
 
 type CampaignRow = {
   _id: string;
@@ -58,7 +59,6 @@ export default function Merchant() {
   const [spot, setSpot] = useState(SPOTS[0].label);
   const [hours, setHours] = useState(4);
   const [deal, setDeal] = useState({ title: "", description: "", limit: 100, days: 7 });
-  const [msg, setMsg] = useState<string | null>(null);
   const [campaigns, setCampaigns] = useState<CampaignRow[]>([]);
   const [uploading, setUploading] = useState(false);
 
@@ -91,23 +91,19 @@ export default function Merchant() {
     api<Stats>(`/api/merchant/businesses/${sel}/stats`).then(setStats).catch(() => {});
   }, [sel, allowed]);
 
-  const flash = (m: string) => {
-    setMsg(m);
-    setTimeout(() => setMsg(null), 2500);
-  };
 
   const goLive = async (coords?: [number, number]) => {
     if (!biz) return;
     const c = coords ?? SPOTS.find((s) => s.label === spot)!.c;
     await api(`/api/merchant/businesses/${biz._id}/live`, { body: { lng: c[0], lat: c[1], spot, hours } });
     await loadAll();
-    flash("You're live. Followers can see where you are.");
+    toast.success("You're live!", { emoji: "📍", description: "Followers got a ping with where you are." });
   };
 
   const useGps = () =>
     navigator.geolocation.getCurrentPosition(
       (p) => goLive([p.coords.longitude, p.coords.latitude]),
-      () => flash("Couldn't get your location. Pick a spot instead.")
+      () => toast.error("Couldn't get your location", { description: "Pick a spot from the list instead." })
     );
 
   if (ready && !user)
@@ -257,9 +253,9 @@ export default function Merchant() {
                     try {
                       await api(`/api/merchant/businesses/${biz._id}/photo`, { body: { dataUrl: await toDataUrl(f) } });
                       await loadAll();
-                      flash("Photo updated");
+                      toast.success("Cover photo updated", { emoji: "📸" });
                     } catch (x) {
-                      flash((x as ApiError).message);
+                      toast.error(x);
                     } finally {
                       setUploading(false);
                     }
@@ -318,9 +314,9 @@ export default function Merchant() {
                   await api(`/api/merchant/businesses/${biz._id}/deals`, { body: { ...deal, description: deal.description || undefined } });
                   setDeal({ title: "", description: "", limit: 100, days: 7 });
                   loadStats(biz._id);
-                  flash("Deal is live in the city feed.");
+                  toast.success("Deal is live", { emoji: "🎟️", description: "It's in the city feed and followers were notified." });
                 } catch (x) {
-                  flash((x as ApiError).message);
+                  toast.error(x);
                 }
               }}
             >
@@ -345,13 +341,6 @@ export default function Merchant() {
         )}
       </div>
 
-      <AnimatePresence>
-        {msg && (
-          <motion.div initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 40, opacity: 0 }} className="fixed inset-x-0 bottom-6 z-50 mx-auto w-fit rounded-full bg-ink px-5 py-3 text-sm text-cream shadow-xl">
-            {msg}
-          </motion.div>
-        )}
-      </AnimatePresence>
     </main>
   );
 }
