@@ -230,9 +230,10 @@ export default function BookingView({ venue, courts }: { venue: Venue; courts: C
       {/* sticky summary */}
       <AnimatePresence>
         {selection && court && phase !== "done" && (
-          <motion.div initial={{ y: "110%" }} animate={{ y: 0 }} exit={{ y: "110%" }} transition={{ type: "spring", stiffness: 300, damping: 32 }} className="fixed inset-x-0 bottom-0 z-40 px-3 pb-3 sm:pb-5">
-            <div className="mx-auto max-w-3xl rounded-3xl bg-ink p-5 text-cream shadow-2xl">
-              <div className="flex flex-wrap items-center justify-between gap-3">
+          <motion.div initial={{ y: "110%" }} animate={{ y: 0 }} exit={{ y: "110%" }} transition={{ type: "spring", stiffness: 300, damping: 32 }} className="fixed inset-x-0 bottom-0 z-[55] px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] sm:pb-5">
+            <div className="relative mx-auto max-h-[calc(100svh-6rem)] max-w-3xl overflow-y-auto overscroll-contain rounded-3xl bg-ink p-4 text-cream shadow-[0_-12px_50px_-12px_rgba(11,11,15,0.55)] ring-1 ring-white/10 sm:p-5">
+              <button onClick={() => setSel(null)} aria-label="Clear selection" className="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full bg-white/10 text-sm text-cream/70 hover:bg-white/20 hover:text-cream">✕</button>
+              <div className="flex flex-wrap items-center justify-between gap-3 pr-10">
                 <div>
                   <p className="text-xs text-cream/60">{court.name} · {longDate(date)}</p>
                   <p className="font-display text-2xl font-bold">{rangeLabel(selection.start, selection.hours)}</p>
