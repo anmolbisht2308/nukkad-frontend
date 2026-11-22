@@ -1,0 +1,1 @@
+export type Creator = { _id: string; handle: string; name: string; platform: string; followers: number; niches: string[]; area?: string; ratePerPost: number; bio?: string; emoji: string; completed: number };
