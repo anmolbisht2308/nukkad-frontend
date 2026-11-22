@@ -203,7 +203,7 @@ export default function BookingsPage() {
             ))}
           </div>
           <div className="mt-6 space-y-3">
-            {!items && [0, 1].map((k) => <div key={k} className="h-28 animate-pulse rounded-3xl bg-ink/5" />)}
+            {!items && [0, 1].map((k) => <div key={k} className="h-28 skeleton rounded-3xl" />)}
             <AnimatePresence mode="popLayout">
               {shown.map((b, i) => (
                 <BookingCard key={b._id} b={b} i={i} reload={reload} />

@@ -19,22 +19,22 @@ type When = (typeof tabs)[number]["id"];
 function Section({ title, sub, children, row = false }: { title: string; sub?: string; children: ReactNode; row?: boolean }) {
   return (
     <section className="mt-12">
-      <div className="mb-4 flex items-end justify-between px-5 sm:px-0">
+      <div className="mb-4 flex items-end justify-between px-5 xl:px-0">
         <div>
           <h2 className="font-display text-2xl font-extrabold tracking-tight sm:text-3xl">{title}</h2>
           {sub && <p className="text-sm text-ink/55">{sub}</p>}
         </div>
       </div>
-      {row ? <div className="no-scrollbar -mx-0 flex snap-x gap-4 overflow-x-auto px-5 pb-4 sm:px-0">{children}</div> : <div className="grid gap-3 px-5 sm:px-0 md:grid-cols-2 [&>*]:min-w-0">{children}</div>}
+      {row ? <div className="no-scrollbar flex snap-x snap-mandatory scroll-px-5 gap-4 overflow-x-auto px-5 pb-4 xl:scroll-px-0 xl:px-0">{children}</div> : <div className="grid gap-3 px-5 md:grid-cols-2 xl:px-0 [&>*]:min-w-0">{children}</div>}
     </section>
   );
 }
 
 function Skeleton() {
   return (
-    <div className="mt-12 space-y-4 px-5 sm:px-0">
+    <div className="mt-12 space-y-4 px-5 xl:px-0">
       {[0, 1, 2].map((i) => (
-        <div key={i} className="h-28 animate-pulse rounded-3xl bg-ink/5" />
+        <div key={i} className="h-28 skeleton rounded-3xl" />
       ))}
     </div>
   );
@@ -63,16 +63,16 @@ export default function Pulse() {
 
   return (
     <main className="mx-auto max-w-6xl pb-24 pt-28">
-      <div className="px-5 sm:px-0">
+      <div className="px-5 xl:px-0">
         <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-2 text-sm font-medium text-ink/60">
           <span className="live-dot" /> {city.name} pulse
         </motion.p>
-        <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }} className="mt-2 font-display text-5xl font-extrabold tracking-tight sm:text-7xl">
+        <motion.h1 className="hero-in mt-2 font-display text-5xl font-extrabold tracking-tight sm:text-7xl">
           {t("whatsOn")} {lang === "en" ? t(tabs.find((x) => x.id === when)!.label).toLowerCase() : t(tabs.find((x) => x.id === when)!.label)}
         </motion.h1>
-        <div className="mt-6 inline-flex rounded-full bg-white p-1 shadow-sm ring-1 ring-ink/5">
+        <div className="no-scrollbar mt-6 inline-flex max-w-full overflow-x-auto rounded-full bg-white p-1 shadow-sm ring-1 ring-ink/5">
           {tabs.map((tab) => (
-            <button key={tab.id} onClick={() => setWhen(tab.id)} className="relative rounded-full px-4 py-2 text-sm font-semibold">
+            <button key={tab.id} onClick={() => setWhen(tab.id)} className="relative shrink-0 whitespace-nowrap rounded-full px-3 py-2 text-sm font-semibold xs:px-4">
               {when === tab.id && <motion.span layoutId="when" className="absolute inset-0 rounded-full bg-ink" transition={{ type: "spring", stiffness: 400, damping: 32 }} />}
               <span className={`relative ${when === tab.id ? "text-cream" : "text-ink/60"}`}>{t(tab.label)}</span>
             </button>

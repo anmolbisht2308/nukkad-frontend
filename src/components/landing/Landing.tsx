@@ -1,13 +1,12 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import { animate, motion, useInView, useScroll, useTransform } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { api, ApiError, type Feed } from "@/lib/api";
 import { BRAND } from "@/lib/brand";
 
-const CityScene = dynamic(() => import("./CityScene"), { ssr: false, loading: () => <div className="h-full w-full bg-ink" /> });
+import { DeferredCity } from "./DeferredCity";
 const ease = [0.22, 1, 0.36, 1] as const;
 
 type Stats = { live: number; businesses: number; deals: number; events: number; waitlist: number };
@@ -32,42 +31,43 @@ function Hero({ stats, ticker }: { stats: Stats | null; ticker: string[] }) {
   return (
     <section ref={ref} className="relative h-[100svh] min-h-[640px] overflow-hidden bg-ink text-cream">
       <motion.div style={{ scale }} className="absolute inset-0">
-        <CityScene />
+        <DeferredCity />
       </motion.div>
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/70 via-transparent to-ink" />
-      <motion.div style={{ opacity: fade }} className="relative z-10 mx-auto flex h-full max-w-6xl flex-col justify-end px-5 pb-28 sm:justify-center sm:pb-0">
-        <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, ease }} className="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-medium backdrop-blur">
-          <span className="live-dot" /> {stats ? `${stats.live} food trucks live in ${BRAND.city} right now` : `Live in ${BRAND.city}`}
-        </motion.p>
+      <div className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-ink/80 via-ink/35 to-transparent sm:block" />
+      <motion.div style={{ opacity: fade }} className="fold-left relative z-10 mx-auto flex h-full max-w-6xl flex-col justify-end px-5 pb-[calc(9.5rem+env(safe-area-inset-bottom))] sm:justify-center sm:pb-0">
+        <p style={{ ["--d" as string]: "0.1s" }} className="hero-in mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-medium backdrop-blur">
+          <span className="live-dot" /> {stats && stats.live > 0 ? `${stats.live} food truck${stats.live > 1 ? "s" : ""} live in ${BRAND.city} right now` : `Live in ${BRAND.city}`}
+        </p>
         <h1 className="max-w-3xl font-display text-[clamp(3rem,10vw,7.5rem)] font-extrabold leading-[0.9] tracking-tight">
           {words.map((w, i) => (
             <span key={i} className="mr-[0.22em] inline-block overflow-hidden pb-2 align-bottom">
-              <motion.span className={`inline-block ${i === words.length - 1 ? "bg-gradient-to-r from-saffron via-chili to-sun bg-clip-text text-transparent" : ""}`} initial={{ y: "110%" }} animate={{ y: 0 }} transition={{ duration: 1, delay: 0.5 + i * 0.12, ease }}>
+              <span style={{ ["--d" as string]: `${0.15 + i * 0.09}s` }} className={`rise-word inline-block ${i === words.length - 1 ? "bg-gradient-to-r from-saffron via-chili to-sun bg-clip-text text-transparent" : ""}`}>
                 {w}
-              </motion.span>
+              </span>
             </span>
           ))}
         </h1>
-        <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9, duration: 0.8, ease }} className="mt-5 max-w-xl text-lg text-cream/75">
+        <p style={{ ["--d" as string]: "0.35s" }} className="hero-in mt-5 max-w-xl text-lg text-cream/75">
           {BRAND.pitch}
-        </motion.p>
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.05, duration: 0.8, ease }} className="pointer-events-auto mt-8 flex flex-wrap gap-3">
+        </p>
+        <div style={{ ["--d" as string]: "0.5s" }} className="hero-in pointer-events-auto mt-8 flex flex-wrap gap-3">
           <Link href="/pulse" className="rounded-2xl bg-gradient-to-r from-saffron to-chili px-6 py-3.5 font-semibold text-white shadow-[0_10px_40px_-10px_#ff7a1a] transition hover:scale-[1.03] active:scale-95">
             See what&apos;s on tonight →
           </Link>
           <a href="#business" className="rounded-2xl bg-white/10 px-6 py-3.5 font-semibold backdrop-blur transition hover:bg-white/20">
             List your business
           </a>
-        </motion.div>
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.4 }} className="mt-8 hidden gap-5 text-xs text-cream/60 sm:flex">
+        </div>
+        <div style={{ ["--d" as string]: "0.7s" }} className="hero-in mt-8 hidden gap-5 text-xs text-cream/60 sm:flex">
           <span className="flex items-center gap-2"><i className="h-2 w-2 rounded-full bg-saffron" /> Food trucks</span>
           <span className="flex items-center gap-2"><i className="h-2 w-2 rounded-full bg-chili" /> New openings</span>
           <span className="flex items-center gap-2"><i className="h-2 w-2 rounded-full bg-mint" /> Events</span>
           <span className="flex items-center gap-2"><i className="h-2 w-2 rounded-full bg-sky" /> Sports</span>
-        </motion.div>
+        </div>
       </motion.div>
       {ticker.length > 0 && (
-        <div className="absolute inset-x-0 bottom-0 z-10 overflow-hidden border-t border-white/10 bg-ink/60 py-3 backdrop-blur">
+        <div className="absolute inset-x-0 bottom-[calc(5.4rem+env(safe-area-inset-bottom))] z-10 overflow-hidden border-y border-white/10 bg-ink/60 py-2.5 backdrop-blur md:bottom-0 md:border-b-0 md:py-3">
           <div className="marquee flex w-max gap-10 whitespace-nowrap text-sm text-cream/80">
             {[...ticker, ...ticker].map((t, i) => (
               <span key={i}>{t}</span>

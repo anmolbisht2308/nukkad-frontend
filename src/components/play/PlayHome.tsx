@@ -165,7 +165,7 @@ export default function PlayHome() {
         <h2 className="mt-10 font-display text-3xl font-extrabold tracking-tight">Venues</h2>
         <AnimatePresence mode="wait">
           <motion.div key={sport} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {!list && [0, 1, 2].map((k) => <div key={k} className="h-64 animate-pulse rounded-3xl bg-ink/5" />)}
+            {!list && [0, 1, 2].map((k) => <div key={k} className="h-64 skeleton rounded-3xl" />)}
             {list?.map((v, i) => <VenueTile key={v._id} v={v} i={i} />)}
             {list?.length === 0 && <p className="text-ink/55">No venues for this sport yet.</p>}
           </motion.div>
@@ -179,7 +179,7 @@ export default function PlayHome() {
           <Link href="/bookings" className="hidden text-sm font-semibold underline underline-offset-4 sm:block">Host one →</Link>
         </div>
         <div className="mt-5 grid gap-3 md:grid-cols-2">
-          {!games && [0, 1].map((k) => <div key={k} className="h-28 animate-pulse rounded-3xl bg-ink/5" />)}
+          {!games && [0, 1].map((k) => <div key={k} className="h-28 skeleton rounded-3xl" />)}
           {games?.map((g, i) => <GameRow key={g._id} g={g} i={i} onChange={() => setTick((t) => t + 1)} />)}
           {games?.length === 0 && <p className="text-ink/55">No open games right now. Book a slot and host one!</p>}
         </div>

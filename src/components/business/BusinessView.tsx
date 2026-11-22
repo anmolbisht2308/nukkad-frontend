@@ -87,7 +87,7 @@ export default function BusinessView({ business: b, deals }: { business: Busines
                 </span>
               )}
             </motion.div>
-            <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25, duration: 0.8, ease }} className="mt-3 font-display text-5xl font-extrabold leading-[0.95] tracking-tight sm:text-7xl">
+            <motion.h1 className="hero-in mt-3 font-display text-5xl font-extrabold leading-[0.95] tracking-tight sm:text-7xl">
               {b.name}
             </motion.h1>
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }} className="mt-3 max-w-xl text-lg text-white/85">

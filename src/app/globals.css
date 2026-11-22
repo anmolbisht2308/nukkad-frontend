@@ -1,8 +1,10 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: var(--nf-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--nf-display), ui-sans-serif, system-ui, sans-serif;
+  /* Plus Jakarta Sans for text, Bricolage Grotesque for headlines, Mukta picks up Devanagari (Hindi) glyphs */
+  --font-sans: var(--nf-body), var(--nf-deva), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--nf-display), var(--nf-deva), ui-sans-serif, system-ui, sans-serif;
+
   --color-ink: #0b0b0f;
   --color-cream: #fff7ec;
   --color-saffron: #ff7a1a;
@@ -10,11 +12,55 @@
   --color-mint: #2ee6a6;
   --color-sky: #4cc9f0;
   --color-sun: #ffd23f;
+
+  /* extra breakpoints: xs = most phones (360px+), 3xl = big desktop monitors */
+  --breakpoint-xs: 22.5rem;
+  --breakpoint-3xl: 120rem;
+
+  /* Fluid type scale: every size glides between a 320px phone and a 1440px desktop,
+     so text is never cramped on a Fold cover screen nor tiny on a wide monitor. */
+  --text-xs: clamp(0.72rem, 0.7rem + 0.1vw, 0.78rem);
+  --text-sm: clamp(0.82rem, 0.79rem + 0.15vw, 0.9rem);
+  --text-base: clamp(0.94rem, 0.9rem + 0.2vw, 1.0625rem);
+  --text-lg: clamp(1.04rem, 0.98rem + 0.3vw, 1.2rem);
+  --text-xl: clamp(1.14rem, 1.05rem + 0.45vw, 1.35rem);
+  --text-2xl: clamp(1.32rem, 1.18rem + 0.7vw, 1.6rem);
+  --text-3xl: clamp(1.6rem, 1.38rem + 1.1vw, 2rem);
+  --text-4xl: clamp(1.9rem, 1.6rem + 1.6vw, 2.5rem);
+  --text-5xl: clamp(2.2rem, 1.75rem + 2.4vw, 3.25rem);
+  --text-6xl: clamp(2.5rem, 1.9rem + 3.2vw, 4rem);
+  --text-7xl: clamp(2.9rem, 2.1rem + 4.2vw, 5rem);
+  --text-8xl: clamp(3.3rem, 2.3rem + 5.4vw, 6.25rem);
+
+  --shadow-card: 0 1px 0 rgba(11, 11, 15, 0.04), 0 18px 44px -28px rgba(11, 11, 15, 0.38);
+  --shadow-lift: 0 2px 0 rgba(11, 11, 15, 0.04), 0 28px 60px -30px rgba(11, 11, 15, 0.5);
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* ───────── base ───────── */
 html {
   background: #fff7ec;
   color: #0b0b0f;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  scroll-padding-top: 6rem;
+}
+/* Fold cover screens & other very narrow phones: shrink the whole rem scale a touch */
+@media (max-width: 340px) {
+  html {
+    font-size: 93.75%;
+  }
+}
+@media (max-width: 300px) {
+  html {
+    font-size: 87.5%;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 /* decorative blobs never cause sideways scrolling on phones (clip keeps sticky elements working) */
 html,
@@ -26,13 +72,65 @@ body {
   min-width: 0;
 }
 body {
-  font-family: var(--font-sans);
-  background: #fff7ec;
+  position: relative;
+  /* @theme inline does not emit --font-sans as a variable, so reference the font vars directly */
+  font-family: var(--nf-body), var(--nf-deva), ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: "cv11", "ss01";
+  line-height: 1.55;
+  min-height: 100dvh;
+}
+/* warm paper feel: two soft glows + very fine grain behind everything */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60rem 40rem at 110% -10%, rgba(255, 122, 26, 0.09), transparent 60%),
+    radial-gradient(50rem 36rem at -20% 110%, rgba(46, 230, 166, 0.07), transparent 60%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+  letter-spacing: -0.02em;
+}
+p,
+li {
+  text-wrap: pretty;
+}
+::selection {
+  background: #ff7a1a;
+  color: #fff;
+}
+:focus-visible {
+  outline: 2.5px solid #ff7a1a;
+  outline-offset: 3px;
+}
+button,
+[role="button"],
+a,
+input,
+select,
+textarea {
+  touch-action: manipulation;
+}
+input,
+select,
+textarea {
+  font-size: max(16px, 1em); /* stops iOS zooming into fields */
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(11, 11, 15, 0.25) transparent;
 }
 
 @layer components {
   .btn-primary {
-    @apply relative overflow-hidden rounded-2xl bg-ink px-5 py-3.5 font-semibold text-cream transition active:scale-[0.98] disabled:opacity-50;
+    @apply relative inline-flex min-h-11 items-center justify-center gap-2 overflow-hidden rounded-2xl bg-ink px-5 py-3 font-semibold text-cream shadow-[0_10px_30px_-14px_rgba(11,11,15,0.7)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_36px_-14px_rgba(11,11,15,0.75)] active:translate-y-0 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50;
   }
   .btn-primary::after {
     content: "";
@@ -45,6 +143,15 @@ body {
   .btn-primary:hover::after {
     transform: translateX(100%);
   }
+  .btn-accent {
+    @apply relative inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-saffron to-chili px-5 py-3 font-semibold text-white shadow-[0_12px_34px_-12px_#ff7a1a] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-12px_#ff7a1a] active:scale-[0.98];
+  }
+  .btn-ghost {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-ink/5 px-5 py-3 font-semibold transition hover:bg-ink/10 active:scale-[0.98];
+  }
+  .card {
+    @apply rounded-3xl bg-white shadow-card ring-1 ring-ink/[0.04];
+  }
   .chip {
     @apply inline-flex items-center gap-1 rounded-full bg-ink/5 px-2.5 py-1 text-xs font-medium;
   }
@@ -53,6 +160,145 @@ body {
   }
   .no-scrollbar::-webkit-scrollbar {
     display: none;
+  }
+  /* shimmering placeholder for loading content */
+  .skeleton {
+    position: relative;
+    overflow: hidden;
+    background: rgba(11, 11, 15, 0.05);
+  }
+  .skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.65), transparent);
+    animation: shimmer 1.4s infinite;
+  }
+  .section-eyebrow {
+    @apply text-xs font-bold uppercase tracking-[0.18em] text-saffron;
+  }
+}
+
+@keyframes shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* ───────── hero entrance (pure CSS so the first paint never waits for JavaScript) ───────── */
+.rise-word {
+  animation: rise-word 0.95s var(--ease-out-expo) both;
+  animation-delay: var(--d, 0s);
+}
+@keyframes rise-word {
+  from {
+    transform: translateY(105%);
+  }
+}
+.hero-in {
+  animation: hero-in 0.8s var(--ease-out-expo) both;
+  animation-delay: var(--d, 0s);
+}
+@keyframes hero-in {
+  from {
+    opacity: 0.15;
+    transform: translateY(14px);
+  }
+}
+
+/* ───────── poster city (stand-in for the 3D scene) ───────── */
+.city-stars {
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 33% 9%, #fff 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 58% 22%, #ffd9b0 50%, transparent 51%),
+    radial-gradient(1px 1px at 72% 12%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 86% 28%, #fff 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 22% 31%, #cbd5ff 50%, transparent 51%),
+    radial-gradient(1px 1px at 46% 36%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 93% 6%, #fff 50%, transparent 51%);
+  animation: twinkle 5s ease-in-out infinite alternate;
+}
+.city-grid {
+  background-image:
+    linear-gradient(rgba(255, 122, 26, 0.45) 1.5px, transparent 1.5px),
+    linear-gradient(90deg, rgba(255, 122, 26, 0.32) 1.5px, transparent 1.5px);
+  background-size: 64px 64px;
+  mask-image: linear-gradient(to top, #000 10%, transparent 85%);
+  animation: grid-drift 6s linear infinite;
+}
+@keyframes grid-drift {
+  to {
+    background-position: 0 64px;
+  }
+}
+.city-window {
+  animation: window 4.5s ease-in-out infinite alternate;
+}
+@keyframes window {
+  0%,
+  35% {
+    opacity: 0.95;
+  }
+  70%,
+  100% {
+    opacity: 0.25;
+  }
+}
+@keyframes twinkle {
+  to {
+    opacity: 0.35;
+  }
+}
+.city-pin {
+  position: absolute;
+  left: -5px;
+  top: -5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  animation: pin 2.4s ease-in-out infinite;
+}
+.city-pin::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 2px solid currentColor;
+  color: inherit;
+  background: inherit;
+  opacity: 0.6;
+  animation: ping 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+  animation-delay: inherit;
+}
+@keyframes pin {
+  50% {
+    transform: translateY(-6px);
+  }
+}
+.city-car {
+  left: -20%;
+  animation: car 7s linear infinite;
+}
+.city-car-2 {
+  animation-duration: 10s;
+  animation-delay: -4s;
+  animation-direction: reverse;
+}
+@keyframes car {
+  to {
+    left: 110%;
+  }
+}
+
+/* toast countdown bar */
+@keyframes toast-bar {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
   }
 }
 
@@ -81,15 +327,6 @@ body {
   }
 }
 
-@keyframes toast-bar {
-  from {
-    transform: scaleX(1);
-  }
-  to {
-    transform: scaleX(0);
-  }
-}
-
 @keyframes marquee {
   to {
     transform: translateX(-50%);
@@ -97,6 +334,13 @@ body {
 }
 .marquee {
   animation: marquee 40s linear infinite;
+}
+
+/* Dual-screen foldables (Surface Duo, Galaxy Fold spanned): keep hero copy on the first screen */
+@media (horizontal-viewport-segments: 2) {
+  .fold-left {
+    max-width: calc(env(viewport-segment-right 0 0, 50vw) - 2.5rem);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

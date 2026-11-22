@@ -180,7 +180,7 @@ export default function EventView({ initial }: { initial: EventDetail }) {
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-sm font-semibold uppercase tracking-widest text-white/80">
               {kindLabel[e.kind] ?? e.kind} · {whenIST(e.startsAt)}
             </motion.p>
-            <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.8, ease }} className="mt-2 font-display text-5xl font-extrabold leading-[0.95] tracking-tight sm:text-7xl">
+            <motion.h1 className="hero-in mt-2 font-display text-5xl font-extrabold leading-[0.95] tracking-tight sm:text-7xl">
               {e.title}
             </motion.h1>
             {e.organizer && <p className="mt-3 text-white/85">by {e.organizer}</p>}

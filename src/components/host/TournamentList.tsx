@@ -72,15 +72,15 @@ export default function TournamentList() {
       <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-sm font-semibold uppercase tracking-widest text-saffron">
         Compete in {BRAND.city}
       </motion.p>
-      <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease }} className="mt-2 max-w-3xl font-display text-5xl font-extrabold tracking-tight sm:text-7xl">
+      <motion.h1 className="hero-in mt-2 max-w-3xl font-display text-5xl font-extrabold tracking-tight sm:text-7xl">
         Tournaments & leagues
       </motion.h1>
       <p className="mt-3 max-w-xl text-ink/60">Box cricket cups, pickleball leagues and Sunday football. Register your team, pay the entry in one tap, and follow live scores.</p>
 
       <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
-        <div className="inline-flex rounded-full bg-white p-1 shadow-sm ring-1 ring-ink/5">
+        <div className="no-scrollbar inline-flex max-w-full overflow-x-auto rounded-full bg-white p-1 shadow-sm ring-1 ring-ink/5">
           {tabs.map((s) => (
-            <button key={s} onClick={() => setTab(s)} className="relative rounded-full px-4 py-2 text-sm font-semibold">
+            <button key={s} onClick={() => setTab(s)} className="relative shrink-0 whitespace-nowrap rounded-full px-3 py-2 text-sm font-semibold xs:px-4">
               {tab === s && <motion.span layoutId="t-tab" className="absolute inset-0 rounded-full bg-ink" transition={{ type: "spring", stiffness: 400, damping: 32 }} />}
               <span className={`relative flex items-center gap-1.5 ${tab === s ? "text-cream" : "text-ink/60"}`}>
                 {s === "live" && <span className="live-dot !bg-chili" />}
@@ -99,7 +99,7 @@ export default function TournamentList() {
       {!items && !err && (
         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {[0, 1, 2].map((i) => (
-            <div key={i} className="h-80 animate-pulse rounded-3xl bg-ink/5" />
+            <div key={i} className="h-80 skeleton rounded-3xl" />
           ))}
         </div>
       )}

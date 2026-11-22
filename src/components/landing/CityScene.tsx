@@ -230,7 +230,7 @@ function Rig() {
 
 const cellCenter = (gx: number, gz: number): [number, number] => [gx * CELL - HALF + CELL, gz * CELL - HALF + CELL];
 
-export default function CityScene() {
+export default function CityScene({ onReady }: { onReady?: () => void }) {
   const low = typeof navigator !== "undefined" && (navigator.hardwareConcurrency ?? 8) <= 4;
   const pins: PinSpec[] = [
     { pos: cellCenter(4, 3), color: "#ff7a1a", delay: 0 },
@@ -241,7 +241,7 @@ export default function CityScene() {
     { pos: cellCenter(10, 2), color: "#ffd23f", delay: 1.7 },
   ];
   return (
-    <Canvas dpr={[1, low ? 1 : 1.75]} camera={{ position: [0, 40, 34], fov: 42, near: 0.5, far: 200 }} gl={{ antialias: !low, powerPreference: "high-performance" }}>
+    <Canvas dpr={[1, low ? 1 : 1.75]} camera={{ position: [0, 40, 34], fov: 42, near: 0.5, far: 200 }} gl={{ antialias: !low, powerPreference: "high-performance" }} onCreated={() => requestAnimationFrame(() => onReady?.())}>
       <color attach="background" args={["#0b0b0f"]} />
       <fog attach="fog" args={["#0b0b0f", 28, 70]} />
       <ambientLight intensity={0.7} />

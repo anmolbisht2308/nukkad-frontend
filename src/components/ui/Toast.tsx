@@ -233,7 +233,7 @@ export function Toaster() {
   const expanded = hovered && list.length > 1;
 
   return (
-    <section aria-label="Notifications" className="pointer-events-none fixed inset-x-0 bottom-[calc(5rem+env(safe-area-inset-bottom))] z-[200] flex justify-center px-4 md:inset-x-auto md:bottom-6 md:right-6 md:w-[380px] md:px-0">
+    <section aria-label="Notifications" className="pointer-events-none fixed inset-x-0 bottom-[calc(6rem+env(safe-area-inset-bottom))] z-[200] flex justify-center px-4 md:inset-x-auto md:bottom-6 md:right-6 md:w-[380px] md:px-0">
       <ol
         className="pointer-events-auto relative h-0 w-full max-w-[380px]"
         onMouseLeave={() => setHovered(false)}

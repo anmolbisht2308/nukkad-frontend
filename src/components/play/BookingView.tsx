@@ -134,13 +134,13 @@ export default function BookingView({ venue, courts }: { venue: Venue; courts: C
       {/* hero */}
       <section className="relative overflow-hidden pb-14 pt-28 text-white" style={gradient(venue.theme)}>
         <motion.div className="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-white/10" animate={{ scale: [1, 1.08, 1] }} transition={{ duration: 6, repeat: Infinity }} />
-        <div className="absolute inset-x-10 bottom-6 top-24 rounded-3xl border-2 border-white/10" />
-        <div className="relative mx-auto flex max-w-5xl items-end gap-6 px-5">
-          <motion.div initial={{ scale: 0, rotate: -30 }} animate={{ scale: 1, rotate: 0 }} transition={{ type: "spring", stiffness: 200, damping: 14 }} className="grid h-24 w-24 shrink-0 place-items-center rounded-[2rem] bg-white/20 text-5xl ring-1 ring-white/30 backdrop-blur sm:h-32 sm:w-32 sm:text-6xl">
+        <div className="absolute inset-x-10 bottom-6 top-24 hidden rounded-3xl border-2 border-white/10 sm:block" />
+        <div className="relative mx-auto flex max-w-5xl flex-col items-start gap-4 px-5 sm:flex-row sm:items-end sm:gap-6">
+          <motion.div initial={{ scale: 0, rotate: -30 }} animate={{ scale: 1, rotate: 0 }} transition={{ type: "spring", stiffness: 200, damping: 14 }} className="grid h-16 w-16 shrink-0 place-items-center rounded-[1.4rem] text-3xl sm:h-24 sm:w-24 sm:rounded-[2rem] sm:text-5xl bg-white/20 ring-1 ring-white/30 backdrop-blur sm:h-32 sm:w-32 sm:text-6xl">
             {venue.emoji}
           </motion.div>
           <div>
-            <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15, duration: 0.8, ease }} className="font-display text-4xl font-extrabold leading-[0.95] tracking-tight sm:text-6xl">
+            <motion.h1 style={{ ["--d" as string]: "0.05s" }} className="hero-in font-display text-4xl font-extrabold leading-[0.95] tracking-tight sm:text-6xl">
               {venue.name}
             </motion.h1>
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="mt-2 text-white/85">

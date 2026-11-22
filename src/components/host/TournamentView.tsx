@@ -105,7 +105,7 @@ export default function TournamentView({ initial }: { initial: TournamentDetail 
             <span className="rounded-full bg-white/20 px-3 py-1 backdrop-blur">📅 {whenIST(t.startsAt)}</span>
             {(t.venueName || t.venue) && <span className="rounded-full bg-white/20 px-3 py-1 backdrop-blur">📍 {t.venueName ?? t.venue?.name}</span>}
           </motion.div>
-          <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.8, ease }} className="mt-4 max-w-3xl font-display text-5xl font-extrabold leading-[0.95] tracking-tight sm:text-7xl">
+          <motion.h1 className="hero-in mt-4 max-w-3xl font-display text-5xl font-extrabold leading-[0.95] tracking-tight sm:text-7xl">
             {t.title}
           </motion.h1>
           {t.prizes[0] && (

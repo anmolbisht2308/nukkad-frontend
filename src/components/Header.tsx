@@ -35,8 +35,8 @@ function CityPicker({ dark }: { dark: boolean }) {
   const [open, setOpen] = useState(false);
   return (
     <div className="relative">
-      <button onClick={() => setOpen(!open)} className={`flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider ${dark ? "bg-mint/15 text-mint" : "bg-mint/20 text-emerald-700"}`}>
-        {city.name} <span className="text-[8px]">▼</span>
+      <button onClick={() => setOpen(!open)} className={`flex max-w-[8.5rem] items-center gap-1 truncate rounded-full px-2 py-1 text-[11px] font-semibold uppercase tracking-wider transition ${dark ? "bg-mint/15 text-mint hover:bg-mint/25" : "bg-mint/20 text-emerald-700 hover:bg-mint/30"}`}>
+        <span className="truncate">{city.name}</span> <span className="text-[8px]">▼</span>
       </button>
       <AnimatePresence>
         {open && (
@@ -129,12 +129,12 @@ export function Header() {
         initial={{ y: -30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${dark ? "text-cream" : "text-ink"}`}
+        className={`fixed inset-x-0 top-0 z-50 pt-[env(safe-area-inset-top)] transition-colors duration-300 ${dark ? "text-cream" : "text-ink"}`}
       >
-        <div className={`mx-3 mt-3 flex max-w-6xl items-center justify-between rounded-full px-4 py-2 backdrop-blur-xl transition-colors duration-300 sm:mx-auto sm:px-5 ${dark ? "bg-white/5 ring-1 ring-white/10" : "bg-white/75 shadow-sm ring-1 ring-ink/5"}`}>
-          <div className="flex items-center gap-2">
-            <Link href="/" className="flex items-center gap-2 font-display text-xl font-extrabold tracking-tight">
-              <span className="grid h-8 w-8 place-items-center rounded-xl bg-gradient-to-br from-saffron to-chili text-base text-white">न</span>
+        <div className={`mx-2 mt-2 flex max-w-6xl items-center justify-between gap-2 rounded-full py-1.5 pl-2 pr-1.5 backdrop-blur-xl transition-[background-color,box-shadow] duration-300 xs:mx-3 xs:mt-3 xs:pl-3 xs:pr-2 sm:mx-auto sm:px-4 lg:mx-auto ${dark ? "bg-white/[0.06] ring-1 ring-white/10" : "bg-white/80 shadow-[0_8px_30px_-18px_rgba(11,11,15,0.45)] ring-1 ring-ink/[0.06]"}`}>
+          <div className="flex min-w-0 items-center gap-1.5 xs:gap-2">
+            <Link href="/" aria-label={`${BRAND.name} home`} className="flex shrink-0 items-center gap-2 font-display text-xl font-extrabold tracking-tight">
+              <span className="grid h-8 w-8 place-items-center rounded-xl bg-gradient-to-br from-saffron to-chili text-base text-white shadow-[0_6px_16px_-6px_#ff7a1a]">न</span>
               <span className="hidden sm:inline">{BRAND.name}</span>
             </Link>
             <CityPicker dark={dark} />
@@ -147,8 +147,8 @@ export function Header() {
               </Link>
             ))}
           </nav>
-          <div className="flex items-center gap-2">
-            <button onClick={() => setLang(lang === "en" ? "hi" : "en")} aria-label="Switch language" className={`rounded-full px-2 py-1 text-xs font-bold ${dark ? "bg-white/10" : "bg-ink/5"}`}>
+          <div className="flex shrink-0 items-center gap-1 xs:gap-1.5">
+            <button onClick={() => setLang(lang === "en" ? "hi" : "en")} aria-label="Switch language" className={`grid h-8 min-w-8 place-items-center rounded-full px-2 text-xs font-bold transition ${dark ? "bg-white/10 hover:bg-white/20" : "bg-ink/5 hover:bg-ink/10"}`}>
               {lang === "en" ? "हिं" : "EN"}
             </button>
             {user && (
@@ -168,7 +168,7 @@ export function Header() {
             {user ? (
               <AccountMenu dark={dark} />
             ) : (
-              <button onClick={() => withLogin()} className={`rounded-full px-4 py-1.5 text-sm font-semibold ${dark ? "bg-cream text-ink" : "bg-ink text-cream"}`}>
+              <button onClick={() => withLogin()} className={`h-8 rounded-full px-3.5 text-sm font-semibold transition active:scale-95 xs:px-4 ${dark ? "bg-cream text-ink" : "bg-ink text-cream"}`}>
                 {t("login")}
               </button>
             )}
@@ -176,18 +176,18 @@ export function Header() {
         </div>
       </motion.header>
 
-      {/* app-style bottom tab bar on phones */}
-      <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-ink/5 bg-white/90 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:hidden">
-        <div className="grid grid-cols-5">
+      {/* app-style floating tab bar on phones and folded foldables */}
+      <nav aria-label="Main" className="fixed inset-x-0 bottom-0 z-50 px-3 pb-[calc(0.6rem+env(safe-area-inset-bottom))] md:hidden">
+        <div className="mx-auto grid max-w-md grid-cols-5 rounded-[1.6rem] bg-ink/90 p-1.5 text-cream shadow-[0_18px_40px_-16px_rgba(11,11,15,0.65)] ring-1 ring-white/10 backdrop-blur-xl">
           {[{ href: "/", label: "home" as Key, emoji: "🏠" }, ...links.slice(0, 3), { href: "/me", label: "me" as Key, emoji: "🙂" }].map((l) => {
             const active = l.href === "/" ? path === "/" : path.startsWith(l.href);
             return (
-              <Link key={l.href} href={l.href} className="relative flex flex-col items-center gap-0.5 py-2 text-[11px] font-medium text-ink/60">
-                {active && <motion.span layoutId="tab-dot" className="absolute top-0 h-0.5 w-8 rounded-full bg-saffron" />}
-                <motion.span animate={{ scale: active ? 1.15 : 1, y: active ? -1 : 0 }} className="text-lg">
+              <Link key={l.href} href={l.href} aria-current={active ? "page" : undefined} className="relative flex min-h-12 flex-col items-center justify-center gap-0.5 rounded-[1.2rem] text-[10px] font-semibold xs:text-[11px]">
+                {active && <motion.span layoutId="tab-bubble" transition={{ type: "spring", stiffness: 500, damping: 38 }} className="absolute inset-0 rounded-[1.2rem] bg-gradient-to-br from-saffron to-chili shadow-[0_8px_20px_-8px_#ff7a1a]" />}
+                <motion.span animate={{ scale: active ? 1.12 : 1, y: active ? -1 : 0 }} className="relative text-[1.15rem] leading-none">
                   {l.emoji}
                 </motion.span>
-                <span className={active ? "text-ink" : ""}>{t(l.label)}</span>
+                <span className={`relative ${active ? "text-white" : "text-cream/60"}`}>{t(l.label)}</span>
               </Link>
             );
           })}
