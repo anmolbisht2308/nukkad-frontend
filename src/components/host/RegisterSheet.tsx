@@ -82,17 +82,17 @@ function Sheet({ t, onClose, onDone }: { t: Tournament; onClose: () => void; onD
               className="mt-5 w-full rounded-2xl border-2 border-ink/10 bg-white px-4 py-3 text-lg font-semibold outline-none focus:border-saffron"
             />
             <p className="mb-2 mt-5 text-sm font-semibold">
-              Players <span className="font-normal text-ink/50">(min {t.teamSize}, captain first)</span>
+              Players <span className="font-normal text-ink/60">(min {t.teamSize}, captain first)</span>
             </p>
             <div className="space-y-2">
               <AnimatePresence initial={false}>
                 {players.map((p, i) => (
                   <motion.div key={i} initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="flex gap-2">
-                    <span className="grid w-8 shrink-0 place-items-center text-sm font-bold text-ink/40">{i + 1}</span>
+                    <span className="grid w-8 shrink-0 place-items-center text-sm font-bold text-ink/60">{i + 1}</span>
                     <input value={p.name} onChange={(e) => setPlayer(i, { name: e.target.value })} placeholder="Name" className="min-w-0 flex-1 rounded-xl border-2 border-ink/10 bg-white px-3 py-2 outline-none focus:border-saffron" />
                     <input value={p.phone} onChange={(e) => setPlayer(i, { phone: e.target.value })} inputMode="numeric" placeholder="Phone (optional)" className="w-36 rounded-xl border-2 border-ink/10 bg-white px-3 py-2 text-sm outline-none focus:border-saffron" />
                     {players.length > t.teamSize && (
-                      <button type="button" onClick={() => setPlayers((ps) => ps.filter((_, j) => j !== i))} className="px-1 text-ink/40 hover:text-chili" aria-label="Remove player">
+                      <button type="button" onClick={() => setPlayers((ps) => ps.filter((_, j) => j !== i))} className="px-1 text-ink/60 hover:text-chili" aria-label="Remove player">
                         ×
                       </button>
                     )}

@@ -46,7 +46,7 @@ function SummaryCard({ n, label, accent }: { n: string | number; label: string; 
   return (
     <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className={`rounded-3xl p-4 ${accent ? "bg-ink text-cream" : "bg-white"}`}>
       <p className="font-display text-3xl font-extrabold">{n}</p>
-      <p className={`text-xs ${accent ? "text-cream/60" : "text-ink/55"}`}>{label}</p>
+      <p className={`text-xs ${accent ? "text-cream/60" : "text-ink/60"}`}>{label}</p>
     </motion.div>
   );
 }
@@ -194,7 +194,7 @@ export default function VenueDashboard() {
     <main className="mx-auto max-w-6xl px-5 pb-28 pt-28">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-sm font-medium text-ink/55">
+          <p className="text-sm font-medium text-ink/60">
             <Link href="/merchant" className="underline underline-offset-4">Business dashboard</Link> / Venue calendar
           </p>
           <h1 className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl">{venue ? `${venue.emoji} ${venue.name}` : "…"}</h1>
@@ -217,7 +217,7 @@ export default function VenueDashboard() {
           <motion.section initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="overflow-hidden">
             <div className="mt-5 space-y-2 rounded-3xl bg-white p-4">
               <p className="font-display text-xl font-bold">Courts & pricing</p>
-              <p className="text-xs text-ink/50">Hours are 0–24 (e.g. peak 18 → 22 means 6 PM to 10 PM).</p>
+              <p className="text-xs text-ink/60">Hours are 0–24 (e.g. peak 18 → 22 means 6 PM to 10 PM).</p>
               {courts.map((c) => (
                 <CourtEditor key={c._id + tick} court={c} onSaved={reload} />
               ))}
@@ -235,7 +235,7 @@ export default function VenueDashboard() {
             <button key={d} onClick={() => setDate(d)} className="relative flex w-16 shrink-0 flex-col items-center rounded-2xl py-2.5">
               {on && <motion.span layoutId="v-date" className="absolute inset-0 rounded-2xl bg-ink" />}
               {!on && <span className="absolute inset-0 rounded-2xl bg-white" />}
-              <span className={`relative text-xs ${on ? "text-cream/70" : "text-ink/50"}`}>{c.top}</span>
+              <span className={`relative text-xs ${on ? "text-cream/70" : "text-ink/60"}`}>{c.top}</span>
               <span className={`relative font-display text-2xl font-bold ${on ? "text-cream" : ""}`}>{c.bottom}</span>
             </button>
           );
@@ -279,7 +279,7 @@ export default function VenueDashboard() {
             ))}
             {hoursRange.map((h, ri) => (
               <div key={h} className="contents">
-                <div className="flex items-center justify-end pr-2 text-xs font-medium text-ink/45">{hourLabel(h)}</div>
+                <div className="flex items-center justify-end pr-2 text-xs font-medium text-ink/60">{hourLabel(h)}</div>
                 {view.courts.map((c) => {
                   const s = c.slots.find((x) => x.hour === h);
                   if (!s) return <div key={c._id} className="rounded-xl bg-ink/[0.03]" />;
@@ -335,7 +335,7 @@ export default function VenueDashboard() {
             >
               {modal.kind === "new" ? (
                 <>
-                  <p className="text-sm text-ink/55">{modal.courtName} · {longDate(date)}</p>
+                  <p className="text-sm text-ink/60">{modal.courtName} · {longDate(date)}</p>
                   <h2 className="font-display text-2xl font-bold">{rangeLabel(modal.hour, hours)}</h2>
                   <div className="mt-4 flex rounded-2xl bg-ink/5 p-1 text-sm font-semibold">
                     {(["walkin", "block"] as const).map((m) => (
@@ -366,7 +366,7 @@ export default function VenueDashboard() {
                 </>
               ) : (
                 <>
-                  <p className="text-sm text-ink/55">{modal.courtName} · {longDate(date)} · {rangeLabel(modal.b.startHour, modal.b.hours)}</p>
+                  <p className="text-sm text-ink/60">{modal.courtName} · {longDate(date)} · {rangeLabel(modal.b.startHour, modal.b.hours)}</p>
                   <h2 className="font-display text-2xl font-bold">{modal.b.source === "blocked" ? `⛔ ${modal.b.note ?? "Blocked"}` : modal.b.name}</h2>
                   {modal.b.source !== "blocked" && (
                     <div className="mt-3 space-y-1 text-sm">

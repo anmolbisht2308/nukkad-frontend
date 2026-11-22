@@ -110,9 +110,9 @@ export default function Me() {
                   {c.business.emoji}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-xs text-ink/55">{c.business.name}</p>
+                  <p className="text-xs text-ink/60">{c.business.name}</p>
                   <p className="font-display text-lg font-bold leading-tight">{c.deal.title}</p>
-                  <p className="text-xs text-ink/50">{used ? `Used ${c.redeemedAt ? whenIST(c.redeemedAt) : ""}` : `Valid till ${whenIST(c.deal.endsAt)}`}</p>
+                  <p className="text-xs text-ink/60">{used ? `Used ${c.redeemedAt ? whenIST(c.redeemedAt) : ""}` : `Valid till ${whenIST(c.deal.endsAt)}`}</p>
                 </div>
                 <span className={`rounded-xl px-3 py-1.5 font-mono text-sm font-bold ${used ? "bg-ink/5 line-through" : "bg-ink text-cream"}`}>{c.code}</span>
               </motion.button>
@@ -123,7 +123,7 @@ export default function Me() {
         <div className="mt-5 grid gap-5 md:grid-cols-2">
           <div className="rounded-3xl bg-white p-5">
             <h2 className="font-display text-xl font-bold">History</h2>
-            {pts?.history.length === 0 && <p className="mt-2 text-sm text-ink/55">No points yet. Redeem your first deal!</p>}
+            {pts?.history.length === 0 && <p className="mt-2 text-sm text-ink/60">No points yet. Redeem your first deal!</p>}
             <div className="mt-2 divide-y divide-ink/5">
               {pts?.history.map((h) => (
                 <div key={h._id} className="flex items-center justify-between py-2 text-sm">
@@ -140,7 +140,7 @@ export default function Me() {
                 <motion.div key={l.name + i} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }} className="flex items-center gap-3 rounded-xl px-2 py-2 text-sm odd:bg-cream/60">
                   <span className="w-6 text-center font-display font-bold">{i < 3 ? ["🥇", "🥈", "🥉"][i] : i + 1}</span>
                   <span className="flex-1 truncate">{l.name}</span>
-                  <span className="text-xs text-ink/50">{l.tier.emoji}</span>
+                  <span className="text-xs text-ink/60">{l.tier.emoji}</span>
                   <span className="font-semibold">{l.points}</span>
                 </motion.div>
               ))}

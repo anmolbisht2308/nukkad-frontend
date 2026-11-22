@@ -37,7 +37,7 @@ export function Bracket({ matches, rounds }: { matches: Match[]; rounds: number 
       <div className="relative" style={{ width, height: height + 32 }}>
         {/* round headings */}
         {Array.from({ length: rounds }, (_, i) => (
-          <p key={i} className="absolute top-0 text-xs font-semibold uppercase tracking-wider text-ink/45" style={{ left: i * (COL + GAP) }}>
+          <p key={i} className="absolute top-0 text-xs font-semibold uppercase tracking-wider text-ink/60" style={{ left: i * (COL + GAP) }}>
             {roundName(i + 1, rounds, "knockout")}
           </p>
         ))}
@@ -88,7 +88,7 @@ export function Bracket({ matches, rounds }: { matches: Match[]; rounds: number 
               )}
               <Side name={m.teamA?.name} score={m.scoreA} win={winA} lost={winB} />
               <div className="mx-3 h-px bg-ink/5" />
-              {m.bye ? <p className="px-3 py-1.5 text-xs italic text-ink/40">Bye: advances</p> : <Side name={m.teamB?.name} score={m.scoreB} win={winB} lost={winA} />}
+              {m.bye ? <p className="px-3 py-1.5 text-xs italic text-ink/60">Bye: advances</p> : <Side name={m.teamB?.name} score={m.scoreB} win={winB} lost={winA} />}
             </motion.div>
           );
         })}

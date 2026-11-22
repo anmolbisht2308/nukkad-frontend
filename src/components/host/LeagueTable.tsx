@@ -7,7 +7,7 @@ import type { StandingRow } from "@/lib/host";
 export function LeagueTable({ rows }: { rows: StandingRow[] }) {
   return (
     <div className="overflow-hidden rounded-3xl bg-white shadow-[0_20px_60px_-35px_rgba(0,0,0,0.35)]">
-      <div className="grid grid-cols-[2rem_1fr_repeat(5,2.25rem)_3rem] gap-1 border-b border-ink/5 px-4 py-3 text-[11px] font-semibold uppercase tracking-wider text-ink/45 sm:grid-cols-[2rem_1fr_repeat(5,3rem)_3.5rem]">
+      <div className="grid grid-cols-[2rem_1fr_repeat(5,2.25rem)_3rem] gap-1 border-b border-ink/5 px-4 py-3 text-[11px] font-semibold uppercase tracking-wider text-ink/60 sm:grid-cols-[2rem_1fr_repeat(5,3rem)_3.5rem]">
         <span>#</span>
         <span>Team</span>
         <span className="text-center">P</span>

@@ -28,7 +28,7 @@ function Card({ t, i }: { t: Tournament; i: number }) {
         <div className="p-5">
           <p className="text-sm text-ink/60">📅 {whenIST(t.startsAt)}</p>
           <p className="truncate text-sm text-ink/60">📍 {t.venueName ?? t.venue?.name ?? t.area ?? BRAND.city}</p>
-          <div className="mt-3 flex items-center justify-between text-xs text-ink/55">
+          <div className="mt-3 flex items-center justify-between text-xs text-ink/60">
             <span>{t.teamsCount}/{t.maxTeams} teams</span>
             <span className="capitalize">{t.format}</span>
           </div>
@@ -37,7 +37,7 @@ function Card({ t, i }: { t: Tournament; i: number }) {
           </div>
           <div className="mt-4 flex items-end justify-between">
             <div>
-              <p className="text-xs text-ink/50">Entry</p>
+              <p className="text-xs text-ink/60">Entry</p>
               <p className="font-display text-xl font-extrabold">{t.entryFee ? rupees(t.entryFee) : "Free"}</p>
             </div>
             {t.prizes[0] && <p className="max-w-[60%] truncate text-right text-sm font-semibold">🏆 {t.prizes[0]}</p>}

@@ -168,7 +168,7 @@ export default function BookingView({ venue, courts }: { venue: Venue; courts: C
               <button key={d} onClick={() => setDate(d)} className="relative flex w-16 shrink-0 flex-col items-center rounded-2xl py-2.5">
                 {on && <motion.span layoutId="date-pill" className="absolute inset-0 rounded-2xl bg-ink" transition={{ type: "spring", stiffness: 400, damping: 32 }} />}
                 {!on && <span className="absolute inset-0 rounded-2xl bg-white" />}
-                <span className={`relative text-xs font-medium ${on ? "text-cream/70" : "text-ink/50"}`}>{c.top}</span>
+                <span className={`relative text-xs font-medium ${on ? "text-cream/70" : "text-ink/60"}`}>{c.top}</span>
                 <span className={`relative font-display text-2xl font-bold ${on ? "text-cream" : ""}`}>{c.bottom}</span>
               </button>
             );
@@ -187,7 +187,7 @@ export default function BookingView({ venue, courts }: { venue: Venue; courts: C
           ))}
         </div>
         {court && (
-          <p className="mt-3 text-sm text-ink/55">
+          <p className="mt-3 text-sm text-ink/60">
             {rupees(court.pricePerHour)}/hr · <span className="font-semibold text-saffron">🔥 peak {rupees(court.peakPricePerHour)}/hr</span> ({hourLabel(court.peakFrom)}–{hourLabel(court.peakTo)}) · tap a slot, tap the next one to add an hour
           </p>
         )}
@@ -224,7 +224,7 @@ export default function BookingView({ venue, courts }: { venue: Venue; courts: C
               })}
           </motion.div>
         </AnimatePresence>
-        {view && slots.length > 0 && slots.every((s) => s.status !== "free") && <p className="mt-4 text-ink/55">Fully booked on {longDate(date)}. Try another day or court.</p>}
+        {view && slots.length > 0 && slots.every((s) => s.status !== "free") && <p className="mt-4 text-ink/60">Fully booked on {longDate(date)}. Try another day or court.</p>}
       </div>
 
       {/* sticky summary */}
@@ -299,14 +299,14 @@ export default function BookingView({ venue, courts }: { venue: Venue; courts: C
               </motion.div>
               <p className="mt-4 font-display text-3xl font-extrabold">You&apos;re booked!</p>
               <p className="mt-1 text-ink/60">{done.label}</p>
-              <p className="mt-1 text-sm text-ink/50">{venue.name} · {rupees(done.amount)}</p>
+              <p className="mt-1 text-sm text-ink/60">{venue.name} · {rupees(done.amount)}</p>
               {done.share < done.amount && (
                 <a href={whatsappShare(`Booked ${done.label} at ${venue.name} 🏟️ Your share is ${rupees(done.share)}. Send it to me on UPI 🙏`)} target="_blank" rel="noreferrer" className="mt-4 block rounded-2xl bg-[#25D366] py-3 font-semibold text-white">
                   Ask friends for their share on WhatsApp
                 </a>
               )}
               <Link href="/bookings" className="btn-primary mt-3 block">View my bookings</Link>
-              <button onClick={() => setPhase("idle")} className="mt-2 text-sm text-ink/55 underline">Book another slot</button>
+              <button onClick={() => setPhase("idle")} className="mt-2 text-sm text-ink/60 underline">Book another slot</button>
             </motion.div>
           </>
         )}

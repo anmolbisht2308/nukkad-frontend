@@ -20,7 +20,7 @@ type Campaign = {
 const statusStyle: Record<Campaign["status"], string> = {
   requested: "bg-sun/30 text-amber-800",
   accepted: "bg-sky/20 text-sky-800",
-  declined: "bg-ink/5 text-ink/50",
+  declined: "bg-ink/5 text-ink/60",
   posted: "bg-saffron/20 text-orange-800",
   completed: "bg-mint/25 text-emerald-800",
 };
@@ -105,7 +105,7 @@ export default function CreatorStudio() {
 
         <section>
           <h2 className="font-display text-2xl font-bold">Campaign requests</h2>
-          {loaded && campaigns.length === 0 && <p className="mt-3 rounded-3xl bg-white p-6 text-ink/55">{creator ? "No requests yet. Businesses find you in the marketplace." : "Create your profile to start receiving requests."}</p>}
+          {loaded && campaigns.length === 0 && <p className="mt-3 rounded-3xl bg-white p-6 text-ink/60">{creator ? "No requests yet. Businesses find you in the marketplace." : "Create your profile to start receiving requests."}</p>}
           <div className="mt-3 space-y-3">
             {campaigns.map((c, i) => (
               <motion.div key={c._id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }} className="rounded-3xl bg-white p-5">
@@ -113,7 +113,7 @@ export default function CreatorStudio() {
                   <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl text-2xl" style={{ background: `linear-gradient(135deg, ${c.business.theme.from}, ${c.business.theme.to})` }}>{c.business.emoji}</span>
                   <div className="min-w-0 flex-1">
                     <p className="font-display text-lg font-bold leading-tight">{c.business.name}</p>
-                    <p className="text-sm text-ink/55">₹{c.budget.toLocaleString("en-IN")} · {c.business.area}</p>
+                    <p className="text-sm text-ink/60">₹{c.budget.toLocaleString("en-IN")} · {c.business.area}</p>
                   </div>
                   <span className={`rounded-full px-2.5 py-1 text-xs font-semibold capitalize ${statusStyle[c.status]}`}>{c.status}</span>
                 </div>

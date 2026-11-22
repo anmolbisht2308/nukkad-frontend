@@ -65,16 +65,16 @@ function StallMap({ slug, title }: { slug: string; title: string }) {
       <div className="flex flex-wrap items-end justify-between gap-2">
         <div>
           <h2 className="font-display text-2xl font-extrabold">Stall map</h2>
-          <p className="text-sm text-ink/55">{free} of {stalls.length} stalls free · food trucks & stalls book here</p>
+          <p className="text-sm text-ink/60">{free} of {stalls.length} stalls free · food trucks & stalls book here</p>
         </div>
-        <div className="flex gap-3 text-xs text-ink/55">
+        <div className="flex gap-3 text-xs text-ink/60">
           <span className="flex items-center gap-1"><i className="h-3 w-3 rounded bg-mint/40" /> Free</span>
           <span className="flex items-center gap-1"><i className="h-3 w-3 rounded bg-ink" /> Booked</span>
         </div>
       </div>
       <div className="no-scrollbar mt-5 overflow-x-auto pb-2">
         <div className="mx-auto w-fit">
-          <p className="mb-2 rounded-full bg-ink/5 py-1 text-center text-[11px] font-semibold uppercase tracking-widest text-ink/45">Stage · entrance this side</p>
+          <p className="mb-2 rounded-full bg-ink/5 py-1 text-center text-[11px] font-semibold uppercase tracking-widest text-ink/60">Stage · entrance this side</p>
           <div className="grid gap-2" style={{ gridTemplateColumns: `repeat(${cols}, minmax(72px, 1fr))` }}>
             {Array.from({ length: rows * cols }, (_, idx) => {
               const s = stalls.find((x) => x.row === Math.floor(idx / cols) && x.col === idx % cols);
@@ -198,14 +198,14 @@ export default function EventView({ initial }: { initial: EventDetail }) {
         </div>
         <motion.aside initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25, ease }} className="space-y-4 md:sticky md:top-24 md:self-start">
           <div className="rounded-3xl bg-white p-6 shadow-[0_20px_60px_-35px_rgba(0,0,0,0.35)]">
-            <p className="text-sm text-ink/55">When</p>
+            <p className="text-sm text-ink/60">When</p>
             <p className="font-display text-xl font-bold">{whenIST(e.startsAt)}{e.endsAt ? ` – ${timeIST(e.endsAt)}` : ""}</p>
-            <p className="mt-3 text-sm text-ink/55">Where</p>
+            <p className="mt-3 text-sm text-ink/60">Where</p>
             <p className="font-display text-xl font-bold">{e.venue}</p>
-            {e.area && <p className="text-sm text-ink/55">{e.area}</p>}
+            {e.area && <p className="text-sm text-ink/60">{e.area}</p>}
             <div className="mt-4 flex items-center justify-between rounded-2xl bg-cream px-4 py-3">
               <span className="font-display text-2xl font-extrabold">{e.price ? rupees(e.price) : "Free"}</span>
-              <span className="text-sm text-ink/55">{e.rsvpCount} going · {left} spots left</span>
+              <span className="text-sm text-ink/60">{e.rsvpCount} going · {left} spots left</span>
             </div>
             <motion.button whileTap={{ scale: 0.96 }} onClick={rsvp} className={`mt-4 w-full rounded-2xl py-3.5 font-semibold transition ${d.going ? "bg-mint text-ink" : "bg-ink text-cream"}`}>
               {d.going ? "✓ You're going (tap to cancel)" : "I'm in"}

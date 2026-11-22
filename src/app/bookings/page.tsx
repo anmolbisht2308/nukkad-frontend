@@ -14,7 +14,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 const statusChip: Record<Booking["status"], string> = {
   pending: "bg-sun/30 text-ink",
   confirmed: "bg-mint/25 text-emerald-800",
-  cancelled: "bg-ink/5 text-ink/50",
+  cancelled: "bg-ink/5 text-ink/60",
   completed: "bg-sky/20 text-sky-900",
   no_show: "bg-chili/10 text-chili",
 };
@@ -64,7 +64,7 @@ function HostForm({ b, onDone }: { b: Booking; onDone: () => void }) {
           <input value={note} onChange={(e) => setNote(e.target.value)} maxLength={200} placeholder="Note, e.g. tennis ball, 6 per side" className="w-full rounded-xl border-2 border-ink/10 bg-white px-3 py-2 text-sm outline-none focus:border-saffron" />
           <div className="flex gap-2">
             <button className="btn-primary flex-1 py-2.5 text-sm">Post open game</button>
-            <button type="button" onClick={() => setOpen(false)} className="rounded-2xl px-3 text-sm text-ink/55">Cancel</button>
+            <button type="button" onClick={() => setOpen(false)} className="rounded-2xl px-3 text-sm text-ink/60">Cancel</button>
           </div>
           {err && <p className="text-xs text-chili">{err}</p>}
         </motion.form>
@@ -86,7 +86,7 @@ function BookingCard({ b, i, reload }: { b: Booking; i: number; reload: () => vo
         <div className="min-w-0 flex-1">
           <p className="text-xs font-semibold uppercase tracking-wide text-saffron">{label}</p>
           <p className="font-display text-lg font-bold leading-tight">{b.business.name}</p>
-          <p className="text-sm text-ink/55">
+          <p className="text-sm text-ink/60">
             {b.court.name} · {rupees(b.amount)} · {b.payment.mode === "online" ? (b.payment.status === "refund_due" ? "refund on its way" : "paid online") : b.payment.status === "paid" ? "paid at venue" : "pay at venue"}
           </p>
         </div>
@@ -95,7 +95,7 @@ function BookingCard({ b, i, reload }: { b: Booking; i: number; reload: () => vo
 
       {friends.length > 0 && b.status !== "cancelled" && (
         <div className="border-t border-ink/5 px-4 py-3">
-          <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-ink/45">Split · {rupees(b.participants[0].share)} each</p>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-ink/60">Split · {rupees(b.participants[0].share)} each</p>
           <div className="flex flex-wrap gap-2">
             {friends.map((p, k) => (
               <div key={k} className="flex items-center gap-1">

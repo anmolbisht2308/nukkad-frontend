@@ -51,12 +51,12 @@ function FixtureRow({ m }: { m: Match }) {
   const winB = m.winner && m.winner._id === m.teamB?._id;
   return (
     <div className="flex items-center gap-3 rounded-2xl bg-white px-4 py-3 text-sm shadow-[0_10px_30px_-24px_rgba(0,0,0,0.4)]">
-      <span className="w-16 shrink-0 text-xs text-ink/50">{m.startsAt ? timeIST(m.startsAt) : ""}</span>
-      <span className={`min-w-0 flex-1 truncate text-right ${winA ? "font-bold" : winB ? "text-ink/45" : ""}`}>{m.teamA?.name ?? "TBD"}</span>
-      <span className={`w-16 shrink-0 rounded-lg py-1 text-center font-mono font-bold tabular-nums ${m.status === "live" ? "bg-chili text-white" : m.status === "done" ? "bg-ink text-cream" : "bg-ink/5 text-ink/40"}`}>
+      <span className="w-16 shrink-0 text-xs text-ink/60">{m.startsAt ? timeIST(m.startsAt) : ""}</span>
+      <span className={`min-w-0 flex-1 truncate text-right ${winA ? "font-bold" : winB ? "text-ink/60" : ""}`}>{m.teamA?.name ?? "TBD"}</span>
+      <span className={`w-16 shrink-0 rounded-lg py-1 text-center font-mono font-bold tabular-nums ${m.status === "live" ? "bg-chili text-white" : m.status === "done" ? "bg-ink text-cream" : "bg-ink/5 text-ink/60"}`}>
         {m.status === "scheduled" ? "vs" : `${m.scoreA ?? 0}–${m.scoreB ?? 0}`}
       </span>
-      <span className={`min-w-0 flex-1 truncate ${winB ? "font-bold" : winA ? "text-ink/45" : ""}`}>{m.teamB?.name ?? (m.bye ? "Bye" : "TBD")}</span>
+      <span className={`min-w-0 flex-1 truncate ${winB ? "font-bold" : winA ? "text-ink/60" : ""}`}>{m.teamB?.name ?? (m.bye ? "Bye" : "TBD")}</span>
     </div>
   );
 }
@@ -156,7 +156,7 @@ export default function TournamentView({ initial }: { initial: TournamentDetail 
                 {byRound.map((ms, i) =>
                   ms.length ? (
                     <div key={i}>
-                      <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-ink/45">
+                      <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-ink/60">
                         {roundName(i + 1, rounds, t.format)} {ms[0].startsAt && `· ${whenIST(ms[0].startsAt)}`}
                       </p>
                       <div className="space-y-2">
@@ -180,7 +180,7 @@ export default function TournamentView({ initial }: { initial: TournamentDetail 
                 {teams.map((tm, i) => (
                   <motion.div key={tm._id} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: (i % 6) * 0.05 }} className="rounded-2xl bg-white p-4">
                     <p className="font-display text-lg font-bold">{tm.name}</p>
-                    <p className="line-clamp-1 text-sm text-ink/55">{tm.players.map((p) => p.name).join(", ")}</p>
+                    <p className="line-clamp-1 text-sm text-ink/60">{tm.players.map((p) => p.name).join(", ")}</p>
                   </motion.div>
                 ))}
               </div>
@@ -199,17 +199,17 @@ export default function TournamentView({ initial }: { initial: TournamentDetail 
           <div className="rounded-3xl bg-white p-6 shadow-[0_20px_60px_-35px_rgba(0,0,0,0.35)]">
             <div className="flex items-end justify-between">
               <div>
-                <p className="text-sm text-ink/55">Entry per team</p>
+                <p className="text-sm text-ink/60">Entry per team</p>
                 <p className="font-display text-4xl font-extrabold">{t.entryFee ? rupees(t.entryFee) : "Free"}</p>
               </div>
-              <p className="text-right text-sm text-ink/55">
+              <p className="text-right text-sm text-ink/60">
                 {t.teamSize} per side
                 <br />
                 {t.format === "knockout" ? "Knockout" : "League"}
               </p>
             </div>
             <div className="mt-4">
-              <div className="flex justify-between text-xs text-ink/55">
+              <div className="flex justify-between text-xs text-ink/60">
                 <span>{t.teamsCount} / {t.maxTeams} teams</span>
                 <span>{full ? "Full" : `${t.maxTeams - t.teamsCount} spots left`}</span>
               </div>

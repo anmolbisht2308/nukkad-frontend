@@ -54,7 +54,7 @@ export function CouponProvider({ children }: { children: ReactNode }) {
                     <QRCodeSVG value={`NUKKAD:${shown.code}`} size={168} level="M" />
                   </motion.div>
                   <p className="mt-4 font-mono text-3xl font-bold tracking-[0.3em]">{shown.code}</p>
-                  <p className="mt-1 text-center text-sm text-ink/55">Show this at the counter. Saved in My coupons.</p>
+                  <p className="mt-1 text-center text-sm text-ink/60">Show this at the counter. Saved in My coupons.</p>
                   <button onClick={() => setShown(null)} className="btn-primary mt-5 w-full">Done</button>
                 </div>
               </div>

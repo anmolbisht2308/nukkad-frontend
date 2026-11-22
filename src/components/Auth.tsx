@@ -137,7 +137,7 @@ function LoginForm({ onClose, onDone }: { onClose: () => void; onDone: (u: User)
                   }}
                 >
                   <label className="flex items-center gap-2 rounded-2xl border-2 border-ink/10 bg-white px-4 py-3 focus-within:border-saffron">
-                    <span className="font-semibold text-ink/50">+91</span>
+                    <span className="font-semibold text-ink/60">+91</span>
                     <input autoFocus inputMode="numeric" autoComplete="tel-national" placeholder="98765 43210" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full bg-transparent text-lg outline-none" />
                   </label>
                   <input placeholder="Your name (optional)" value={name} onChange={(e) => setName(e.target.value)} className="w-full rounded-2xl border-2 border-ink/10 bg-white px-4 py-3 outline-none focus:border-saffron" />

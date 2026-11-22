@@ -135,7 +135,7 @@ export default function BusinessView({ business: b, deals }: { business: Busines
                       <div className="flex-1">
                         <p className="font-display text-xl font-bold leading-tight">{d.title}</p>
                         {d.description && <p className="mt-1 text-sm text-ink/60">{d.description}</p>}
-                        <p className="mt-2 text-xs text-ink/50">{Math.max(0, d.limit - d.claimedCount)} left · ends {whenIST(d.endsAt)}</p>
+                        <p className="mt-2 text-xs text-ink/60">{Math.max(0, d.limit - d.claimedCount)} left · ends {whenIST(d.endsAt)}</p>
                       </div>
                       <motion.button
                         whileTap={{ scale: 0.92 }}
@@ -167,11 +167,11 @@ export default function BusinessView({ business: b, deals }: { business: Busines
             <div className="grid grid-cols-2 gap-4 text-center">
               <div>
                 <p className="font-display text-3xl font-extrabold">{compact(followers)}</p>
-                <p className="text-xs text-ink/55">followers</p>
+                <p className="text-xs text-ink/60">followers</p>
               </div>
               <div>
                 <p className="font-display text-3xl font-extrabold">{b.rating.count ? `★ ${b.rating.avg.toFixed(1)}` : "New"}</p>
-                <p className="text-xs text-ink/55">{b.rating.count ? `${b.rating.count} reviews` : "no reviews yet"}</p>
+                <p className="text-xs text-ink/60">{b.rating.count ? `${b.rating.count} reviews` : "no reviews yet"}</p>
               </div>
             </div>
             <motion.button whileTap={{ scale: 0.96 }} onClick={follow} className={`mt-5 w-full rounded-2xl py-3 font-semibold transition ${me?.following ? "bg-ink/5 text-ink" : "bg-ink text-cream"}`}>
@@ -182,9 +182,9 @@ export default function BusinessView({ business: b, deals }: { business: Busines
             </a>
           </div>
           <div className="rounded-3xl bg-white p-6 text-sm shadow-[0_20px_60px_-35px_rgba(0,0,0,0.35)]">
-            <p className="flex justify-between py-1"><span className="text-ink/55">Hours</span><span className="font-medium">{b.hours}</span></p>
-            <p className="flex justify-between py-1"><span className="text-ink/55">Price</span><span className="font-medium">{"₹".repeat(b.priceLevel)}</span></p>
-            <p className="flex justify-between py-1"><span className="text-ink/55">Address</span><span className="text-right font-medium">{b.address}</span></p>
+            <p className="flex justify-between py-1"><span className="text-ink/60">Hours</span><span className="font-medium">{b.hours}</span></p>
+            <p className="flex justify-between py-1"><span className="text-ink/60">Price</span><span className="font-medium">{"₹".repeat(b.priceLevel)}</span></p>
+            <p className="flex justify-between py-1"><span className="text-ink/60">Address</span><span className="text-right font-medium">{b.address}</span></p>
           </div>
           <Link href="/pulse" className="block text-center text-sm font-medium text-ink/60 underline underline-offset-4">← Back to what&apos;s on</Link>
         </motion.aside>

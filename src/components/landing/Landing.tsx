@@ -118,7 +118,7 @@ function Pillars({ stats }: { stats: Stats | null }) {
           ].map(([n, l]) => (
             <div key={l as string}>
               <p className="font-display text-5xl font-extrabold tracking-tight"><Counter to={n as number} /></p>
-              <p className="text-sm text-ink/55">{l}</p>
+              <p className="text-sm text-ink/60">{l}</p>
             </div>
           ))}
         </div>
@@ -259,7 +259,7 @@ export default function Landing() {
       <Pillars stats={stats} />
       <OpeningPack />
       <Waitlist />
-      <footer className="border-t border-ink/10 py-10 text-center text-sm text-ink/50">
+      <footer className="border-t border-ink/10 py-10 text-center text-sm text-ink/60">
         {BRAND.name} · Made for {BRAND.city} and the cities like it
       </footer>
     </main>

@@ -46,7 +46,7 @@ function ScoreRow({ m, onSaved }: { m: Match; onSaved: () => void }) {
         <Stepper v={b} set={setB} />
       </div>
       <div className="mt-2 flex items-center justify-between gap-2">
-        <span className="text-[11px] uppercase tracking-wider text-ink/45">
+        <span className="text-[11px] uppercase tracking-wider text-ink/60">
           {m.status === "live" ? "🔴 live" : m.status === "done" ? `✓ ${m.winner?.name ?? "draw"}` : "scheduled"} {m.court && `· ${m.court}`}
         </span>
         <div className="flex gap-1.5">
@@ -107,11 +107,11 @@ function CreateTournament({ onCreated }: { onCreated: (slug: string) => void }) 
         <option value="knockout">Knockout (bracket)</option>
         <option value="league">League (round robin)</option>
       </select>
-      <label className="text-xs font-semibold text-ink/55">
+      <label className="text-xs font-semibold text-ink/60">
         Starts
         <input required type="datetime-local" value={f.startsAt} onChange={(e) => set({ startsAt: e.target.value })} className={`${input} mt-1 font-normal text-ink`} />
       </label>
-      <label className="text-xs font-semibold text-ink/55">
+      <label className="text-xs font-semibold text-ink/60">
         Venue
         <select value={f.venueId} onChange={(e) => set({ venueId: e.target.value })} className={`${input} mt-1 font-normal text-ink`}>
           <option value="">Other / not listed</option>
@@ -120,16 +120,16 @@ function CreateTournament({ onCreated }: { onCreated: (slug: string) => void }) 
           ))}
         </select>
       </label>
-      <label className="text-xs font-semibold text-ink/55">
+      <label className="text-xs font-semibold text-ink/60">
         Entry fee per team (₹)
         <input type="number" min={0} value={f.entryFee} onChange={(e) => set({ entryFee: Number(e.target.value) })} className={`${input} mt-1 font-normal text-ink`} />
       </label>
       <div className="grid grid-cols-2 gap-3">
-        <label className="text-xs font-semibold text-ink/55">
+        <label className="text-xs font-semibold text-ink/60">
           Players / team
           <input type="number" min={1} max={15} value={f.teamSize} onChange={(e) => set({ teamSize: Number(e.target.value) })} className={`${input} mt-1 font-normal text-ink`} />
         </label>
-        <label className="text-xs font-semibold text-ink/55">
+        <label className="text-xs font-semibold text-ink/60">
           Max teams
           <input type="number" min={2} max={64} value={f.maxTeams} onChange={(e) => set({ maxTeams: Number(e.target.value) })} className={`${input} mt-1 font-normal text-ink`} />
         </label>
@@ -178,7 +178,7 @@ function StallGrid() {
         <option value="large">Large</option>
       </select>
       <button disabled={!f.slug} className="btn-primary">Create</button>
-      <p className="text-xs text-ink/45 sm:col-span-6">Rows × stalls per row at ₹ price each. Locked once any stall is booked.</p>
+      <p className="text-xs text-ink/60 sm:col-span-6">Rows × stalls per row at ₹ price each. Locked once any stall is booked.</p>
     </form>
   );
 }
@@ -233,17 +233,17 @@ export default function HostConsole() {
 
   return (
     <main className="mx-auto max-w-6xl px-5 pb-24 pt-28">
-      <p className="text-sm font-medium text-ink/55">Organiser console</p>
+      <p className="text-sm font-medium text-ink/60">Organiser console</p>
       <h1 className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl">Run your tournaments</h1>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-[18rem_1fr]">
         <aside className="space-y-2">
-          <p className="text-xs font-semibold uppercase tracking-wider text-ink/45">My tournaments</p>
-          {mine.length === 0 && <p className="rounded-2xl bg-white p-4 text-sm text-ink/55">None yet. Create one below.</p>}
+          <p className="text-xs font-semibold uppercase tracking-wider text-ink/60">My tournaments</p>
+          {mine.length === 0 && <p className="rounded-2xl bg-white p-4 text-sm text-ink/60">None yet. Create one below.</p>}
           {mine.map((x) => (
             <button key={x._id} onClick={() => setSel(x.slug)} className={`relative w-full overflow-hidden rounded-2xl p-3 text-left transition ${sel === x.slug ? "bg-ink text-cream" : "bg-white hover:bg-white/70"}`}>
               <p className="truncate font-semibold">{x.emoji} {x.title}</p>
-              <p className={`text-xs ${sel === x.slug ? "text-cream/60" : "text-ink/50"}`}>{statusLabel[x.status]} · {x.teamsCount}/{x.maxTeams} teams</p>
+              <p className={`text-xs ${sel === x.slug ? "text-cream/60" : "text-ink/60"}`}>{statusLabel[x.status]} · {x.teamsCount}/{x.maxTeams} teams</p>
             </button>
           ))}
         </aside>
@@ -254,7 +254,7 @@ export default function HostConsole() {
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
                   <h2 className="font-display text-2xl font-bold">{t.emoji} {t.title}</h2>
-                  <p className="text-sm text-ink/55">{whenIST(t.startsAt)} · {t.format} · {detail.teams.length} confirmed teams</p>
+                  <p className="text-sm text-ink/60">{whenIST(t.startsAt)} · {t.format} · {detail.teams.length} confirmed teams</p>
                 </div>
                 <Link href={`/tournaments/${t.slug}`} className="rounded-xl bg-ink/5 px-3 py-2 text-sm font-semibold">Public page →</Link>
               </div>
@@ -301,7 +301,7 @@ export default function HostConsole() {
                   {Array.from({ length: rounds }, (_, i) => playable.filter((m) => m.round === i + 1)).map((ms, i) =>
                     ms.length ? (
                       <div key={i}>
-                        <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-ink/45">{roundName(i + 1, rounds, t.format)}</p>
+                        <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-ink/60">{roundName(i + 1, rounds, t.format)}</p>
                         <div className="grid gap-2 md:grid-cols-2">
                           {ms.map((m) => (
                             <ScoreRow key={`${m._id}-${m.scoreA}-${m.scoreB}-${m.status}-${m.teamA?._id}-${m.teamB?._id}`} m={m} onSaved={reload} />
@@ -312,7 +312,7 @@ export default function HostConsole() {
                   )}
                 </div>
               )}
-              {detail.matches.length > 0 && playable.length === 0 && <p className="mt-4 text-sm text-ink/55">Waiting for earlier rounds to decide who plays.</p>}
+              {detail.matches.length > 0 && playable.length === 0 && <p className="mt-4 text-sm text-ink/60">Waiting for earlier rounds to decide who plays.</p>}
             </motion.div>
           )}
 
@@ -330,7 +330,7 @@ export default function HostConsole() {
           {canStalls && (
             <div className="rounded-3xl bg-white p-6">
               <h2 className="font-display text-2xl font-bold">Sell stalls at an event</h2>
-              <p className="mb-4 text-sm text-ink/55">Food trucks and stalls book and pay on the event page.</p>
+              <p className="mb-4 text-sm text-ink/60">Food trucks and stalls book and pay on the event page.</p>
               <StallGrid />
             </div>
           )}

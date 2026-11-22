@@ -22,7 +22,7 @@ function Section({ title, sub, children, row = false }: { title: string; sub?: s
       <div className="mb-4 flex items-end justify-between px-5 xl:px-0">
         <div>
           <h2 className="font-display text-2xl font-extrabold tracking-tight sm:text-3xl">{title}</h2>
-          {sub && <p className="text-sm text-ink/55">{sub}</p>}
+          {sub && <p className="text-sm text-ink/60">{sub}</p>}
         </div>
       </div>
       {row ? <div className="no-scrollbar flex snap-x snap-mandatory scroll-px-5 gap-4 overflow-x-auto px-5 pb-4 xl:scroll-px-0 xl:px-0">{children}</div> : <div className="grid gap-3 px-5 md:grid-cols-2 xl:px-0 [&>*]:min-w-0">{children}</div>}

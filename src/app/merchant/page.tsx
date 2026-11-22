@@ -44,7 +44,7 @@ function Stat({ n, label, accent }: { n: number | string; label: string; accent?
   return (
     <div className={`rounded-3xl p-5 ${accent ? "bg-ink text-cream" : "bg-white"}`}>
       <p className="font-display text-4xl font-extrabold">{n}</p>
-      <p className={`text-sm ${accent ? "text-cream/60" : "text-ink/55"}`}>{label}</p>
+      <p className={`text-sm ${accent ? "text-cream/60" : "text-ink/60"}`}>{label}</p>
     </div>
   );
 }
@@ -126,7 +126,7 @@ export default function Merchant() {
     <main className="mx-auto max-w-5xl px-5 pb-24 pt-28">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-sm font-medium text-ink/55">Business dashboard</p>
+          <p className="text-sm font-medium text-ink/60">Business dashboard</p>
           <h1 className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl">{biz ? `${biz.emoji} ${biz.name}` : "…"}</h1>
         </div>
         <select value={sel ?? ""} onChange={(e) => setSel(e.target.value)} className="rounded-2xl border-2 border-ink/10 bg-white px-4 py-2.5 font-medium outline-none">
@@ -149,7 +149,7 @@ export default function Merchant() {
         {/* redeem */}
         <section className="rounded-3xl bg-white p-6">
           <h2 className="font-display text-2xl font-bold">Redeem a coupon</h2>
-          <p className="text-sm text-ink/55">Type the 6-letter code from the customer&apos;s phone.</p>
+          <p className="text-sm text-ink/60">Type the 6-letter code from the customer&apos;s phone.</p>
           <form
             className="mt-4 flex gap-2"
             onSubmit={async (e) => {
@@ -177,11 +177,11 @@ export default function Merchant() {
           </AnimatePresence>
           {stats && stats.recent.length > 0 && (
             <div className="mt-5 border-t border-ink/5 pt-4">
-              <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-ink/45">Recent</p>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-ink/60">Recent</p>
               {stats.recent.slice(0, 5).map((r) => (
                 <p key={r._id} className="flex justify-between py-1 text-sm">
                   <span className="truncate">{r.deal.title}</span>
-                  <span className="shrink-0 text-ink/50">{whenIST(r.redeemedAt)}</span>
+                  <span className="shrink-0 text-ink/60">{whenIST(r.redeemedAt)}</span>
                 </p>
               ))}
             </div>
@@ -230,7 +230,7 @@ export default function Merchant() {
         {biz && (
           <section className="rounded-3xl bg-white p-6">
             <h2 className="font-display text-2xl font-bold">Cover photo</h2>
-            <p className="text-sm text-ink/55">Shown on your page and in the city feed.</p>
+            <p className="text-sm text-ink/60">Shown on your page and in the city feed.</p>
             <div className="mt-4 flex items-center gap-4">
               <div className="relative h-24 w-32 shrink-0 overflow-hidden rounded-2xl" style={{ background: `linear-gradient(135deg, ${biz.theme.from}, ${biz.theme.to})` }}>
                 {biz.photo ? (
@@ -272,14 +272,14 @@ export default function Merchant() {
             <h2 className="font-display text-2xl font-bold">Creator campaigns</h2>
             <Link href="/creators" className="text-sm font-semibold text-saffron">Hire a creator →</Link>
           </div>
-          {campaigns.length === 0 && <p className="mt-2 text-sm text-ink/55">No campaigns yet. Local creators post about you and you see exactly how many customers they bring.</p>}
+          {campaigns.length === 0 && <p className="mt-2 text-sm text-ink/60">No campaigns yet. Local creators post about you and you see exactly how many customers they bring.</p>}
           <div className="mt-3 divide-y divide-ink/5">
             {campaigns.map((c) => (
               <div key={c._id} className="flex items-center gap-3 py-2.5 text-sm">
                 <span className="text-xl">{c.creator.emoji}</span>
                 <div className="min-w-0 flex-1">
-                  <p className="font-semibold">@{c.creator.handle} <span className="font-normal text-ink/50">for {c.business.name}</span></p>
-                  <p className="text-xs text-ink/50">₹{c.budget} · {c.deal ? `${c.deal.redeemedCount} walked in / ${c.deal.claimedCount} claimed` : ""}</p>
+                  <p className="font-semibold">@{c.creator.handle} <span className="font-normal text-ink/60">for {c.business.name}</span></p>
+                  <p className="text-xs text-ink/60">₹{c.budget} · {c.deal ? `${c.deal.redeemedCount} walked in / ${c.deal.claimedCount} claimed` : ""}</p>
                 </div>
                 <span className="rounded-full bg-ink/5 px-2.5 py-1 text-xs font-semibold capitalize">{c.status}</span>
                 {c.status === "posted" && (
@@ -326,13 +326,13 @@ export default function Merchant() {
               <input type="number" min={1} max={90} value={deal.days} onChange={(e) => setDeal({ ...deal, days: Number(e.target.value) })} title="Days it runs" className="rounded-2xl border-2 border-ink/10 px-4 py-3 outline-none" />
               <button className="btn-primary">Publish</button>
             </form>
-            <p className="mt-2 text-xs text-ink/45">Limit = number of coupons · days = how long it runs</p>
+            <p className="mt-2 text-xs text-ink/60">Limit = number of coupons · days = how long it runs</p>
             {stats && stats.deals.length > 0 && (
               <div className="mt-5 divide-y divide-ink/5">
                 {stats.deals.map((d) => (
                   <div key={d._id} className="flex items-center justify-between gap-3 py-2 text-sm">
                     <span className="font-medium">{d.title}</span>
-                    <span className="shrink-0 text-ink/55">{d.redeemedCount} used / {d.claimedCount} claimed / {d.limit}</span>
+                    <span className="shrink-0 text-ink/60">{d.redeemedCount} used / {d.claimedCount} claimed / {d.limit}</span>
                   </div>
                 ))}
               </div>

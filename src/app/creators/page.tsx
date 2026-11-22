@@ -57,7 +57,7 @@ function HireSheet({ creator, onClose }: { creator: Creator; onClose: () => void
             }}
           >
             <h2 className="font-display text-2xl font-bold">Hire @{creator.handle}</h2>
-            <p className="text-sm text-ink/55">Usually ₹{creator.ratePerPost.toLocaleString("en-IN")} per post</p>
+            <p className="text-sm text-ink/60">Usually ₹{creator.ratePerPost.toLocaleString("en-IN")} per post</p>
             <select value={businessId} onChange={(e) => setBusinessId(e.target.value)} className="mt-4 w-full rounded-2xl border-2 border-ink/10 bg-white px-4 py-3 outline-none">
               {biz.map((b) => (
                 <option key={b._id} value={b._id}>{b.name}</option>
@@ -65,7 +65,7 @@ function HireSheet({ creator, onClose }: { creator: Creator; onClose: () => void
             </select>
             <textarea required minLength={10} value={brief} onChange={(e) => setBrief(e.target.value)} placeholder="What should they post? e.g. A reel of our new waffles on opening weekend" className="mt-3 h-28 w-full rounded-2xl border-2 border-ink/10 bg-white px-4 py-3 outline-none focus:border-saffron" />
             <label className="mt-3 flex items-center gap-2 rounded-2xl border-2 border-ink/10 bg-white px-4 py-3">
-              <span className="text-ink/50">₹</span>
+              <span className="text-ink/60">₹</span>
               <input type="number" min={100} value={budget} onChange={(e) => setBudget(Number(e.target.value))} className="w-full bg-transparent outline-none" />
             </label>
             <button disabled={state === "busy" || !businessId} className="btn-primary mt-4 w-full">{state === "busy" ? "Sending…" : "Send request"}</button>
@@ -112,7 +112,7 @@ export default function Creators() {
       </div>
 
       <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {items?.length === 0 && <p className="text-ink/55">No creators here yet.</p>}
+        {items?.length === 0 && <p className="text-ink/60">No creators here yet.</p>}
         {items?.map((c, i) => (
           <motion.div
             key={c._id}
@@ -128,7 +128,7 @@ export default function Creators() {
             </div>
             <div className="p-5 pt-10">
               <p className="font-display text-xl font-bold">{c.name}</p>
-              <p className="text-sm text-ink/55">@{c.handle} · {c.area}</p>
+              <p className="text-sm text-ink/60">@{c.handle} · {c.area}</p>
               <p className="mt-2 line-clamp-2 text-sm text-ink/70">{c.bio}</p>
               <div className="mt-3 flex flex-wrap gap-1.5">
                 {c.niches.map((n) => (
@@ -136,9 +136,9 @@ export default function Creators() {
                 ))}
               </div>
               <div className="mt-4 grid grid-cols-3 gap-2 text-center">
-                <div className="rounded-xl bg-cream py-2"><p className="font-display font-bold">{compact(c.followers)}</p><p className="text-[10px] text-ink/50">followers</p></div>
-                <div className="rounded-xl bg-cream py-2"><p className="font-display font-bold">₹{compact(c.ratePerPost)}</p><p className="text-[10px] text-ink/50">per post</p></div>
-                <div className="rounded-xl bg-cream py-2"><p className="font-display font-bold">{c.completed}</p><p className="text-[10px] text-ink/50">campaigns</p></div>
+                <div className="rounded-xl bg-cream py-2"><p className="font-display font-bold">{compact(c.followers)}</p><p className="text-[10px] text-ink/60">followers</p></div>
+                <div className="rounded-xl bg-cream py-2"><p className="font-display font-bold">₹{compact(c.ratePerPost)}</p><p className="text-[10px] text-ink/60">per post</p></div>
+                <div className="rounded-xl bg-cream py-2"><p className="font-display font-bold">{c.completed}</p><p className="text-[10px] text-ink/60">campaigns</p></div>
               </div>
               <button
                 onClick={() => (user ? (isBiz ? setHire(c) : toast.info("Business accounts only", { description: "Log in with a business account to hire creators." })) : withLogin())}

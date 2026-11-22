@@ -103,7 +103,7 @@ export function NewCard({ b, i }: { b: Business; i: number }) {
           <span className="absolute left-3 top-3 rounded-full bg-white px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-chili">New</span>
         </div>
         <p className="mt-3 font-display text-lg font-bold leading-tight">{b.name}</p>
-        <p className="text-sm text-ink/55">{kindLabel[b.kind]} · {b.area}</p>
+        <p className="text-sm text-ink/60">{kindLabel[b.kind]} · {b.area}</p>
       </Link>
     </motion.div>
   );
@@ -121,13 +121,13 @@ export function DealCard({ d, i }: { d: Deal; i: number }) {
         <Art b={b} className="h-24 w-24 rounded-2xl" />
       </Link>
       <div className="min-w-0 flex-1">
-        <p className="truncate text-xs font-medium text-ink/55">{b.name} · {b.area}</p>
+        <p className="truncate text-xs font-medium text-ink/60">{b.name} · {b.area}</p>
         <p className="font-display text-lg font-bold leading-tight">{d.title}</p>
         <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-ink/5">
           <motion.div initial={{ width: 0 }} whileInView={{ width: `${pct}%` }} viewport={{ once: true }} transition={{ duration: 1, ease }} className="h-full rounded-full bg-gradient-to-r from-saffron to-chili" />
         </div>
         <div className="mt-2 flex items-center justify-between gap-2">
-          <span className="text-xs text-ink/55">{left} left · ends {whenIST(d.endsAt)}</span>
+          <span className="text-xs text-ink/60">{left} left · ends {whenIST(d.endsAt)}</span>
           <motion.button whileTap={{ scale: 0.9 }} onClick={() => claim(d._id, d.title, b)} className="shrink-0 rounded-full bg-ink px-4 py-1.5 text-xs font-semibold text-cream">
             Claim
           </motion.button>
@@ -147,7 +147,7 @@ export function EventCard({ e, i }: { e: Event; i: number }) {
       <div className="min-w-0 flex-1">
         <p className="text-xs font-semibold uppercase tracking-wide text-saffron">{whenIST(e.startsAt)}</p>
         <Link href={`/events/${e.slug}`} className="font-display text-lg font-bold leading-tight hover:underline">{e.title}</Link>
-        <p className="truncate text-sm text-ink/55">📍 {e.venue} · {kindLabel[e.kind]} · {e.price ? `₹${e.price}` : "Free"}</p>
+        <p className="truncate text-sm text-ink/60">📍 {e.venue} · {kindLabel[e.kind]} · {e.price ? `₹${e.price}` : "Free"}</p>
       </div>
       <motion.button
         whileTap={{ scale: 0.9 }}

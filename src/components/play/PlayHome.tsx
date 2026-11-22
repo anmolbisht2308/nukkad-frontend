@@ -33,7 +33,7 @@ function VenueTile({ v, i }: { v: VenueCard; i: number }) {
         </div>
         <div className="p-5">
           <p className="font-display text-xl font-bold leading-tight">{v.name}</p>
-          <p className="text-sm text-ink/55">📍 {v.area} · ★ {v.rating.avg.toFixed(1)}</p>
+          <p className="text-sm text-ink/60">📍 {v.area} · ★ {v.rating.avg.toFixed(1)}</p>
           <div className="mt-3 flex flex-wrap gap-1.5">
             {v.sports.map((s) => (
               <span key={s} className="chip">{SPORT_META[s].emoji} {SPORT_META[s].label}</span>
@@ -72,15 +72,15 @@ function GameRow({ g, i, onChange }: { g: Game; i: number; onChange: () => void 
         <p className="font-display text-lg font-bold leading-tight">
           {SPORT_META[g.sport].label} at {g.business.name}
         </p>
-        <p className="truncate text-sm text-ink/55">
+        <p className="truncate text-sm text-ink/60">
           {g.court.name} · {g.skill === "any" ? "All levels" : g.skill} · {g.pricePerHead ? `${rupees(g.pricePerHead)}/head` : "Free"} · by {g.host.name ?? "a player"}
         </p>
-        {g.note && <p className="truncate text-xs italic text-ink/45">“{g.note}”</p>}
+        {g.note && <p className="truncate text-xs italic text-ink/60">“{g.note}”</p>}
         <div className="mt-2 flex items-center gap-1">
           {Array.from({ length: g.spots }, (_, k) => (
             <motion.span key={k} initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.2 + k * 0.04, type: "spring" }} className={`h-2.5 w-2.5 rounded-full ${k < g.playerCount ? "bg-mint" : "bg-ink/10"}`} />
           ))}
-          <span className="ml-1 text-xs text-ink/50">{g.spotsLeft ? `${g.spotsLeft} spot${g.spotsLeft > 1 ? "s" : ""} left` : "Full"}</span>
+          <span className="ml-1 text-xs text-ink/60">{g.spotsLeft ? `${g.spotsLeft} spot${g.spotsLeft > 1 ? "s" : ""} left` : "Full"}</span>
         </div>
       </div>
       {g.isHost ? (
@@ -167,21 +167,21 @@ export default function PlayHome() {
           <motion.div key={sport} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {!list && [0, 1, 2].map((k) => <div key={k} className="h-64 skeleton rounded-3xl" />)}
             {list?.map((v, i) => <VenueTile key={v._id} v={v} i={i} />)}
-            {list?.length === 0 && <p className="text-ink/55">No venues for this sport yet.</p>}
+            {list?.length === 0 && <p className="text-ink/60">No venues for this sport yet.</p>}
           </motion.div>
         </AnimatePresence>
 
         <div className="mt-14 flex items-end justify-between">
           <div>
             <h2 className="font-display text-3xl font-extrabold tracking-tight">🙋 Open games</h2>
-            <p className="text-sm text-ink/55">Short of players? Join a game someone already booked.</p>
+            <p className="text-sm text-ink/60">Short of players? Join a game someone already booked.</p>
           </div>
           <Link href="/bookings" className="hidden text-sm font-semibold underline underline-offset-4 sm:block">Host one →</Link>
         </div>
         <div className="mt-5 grid gap-3 md:grid-cols-2">
           {!games && [0, 1].map((k) => <div key={k} className="h-28 skeleton rounded-3xl" />)}
           {games?.map((g, i) => <GameRow key={g._id} g={g} i={i} onChange={() => setTick((t) => t + 1)} />)}
-          {games?.length === 0 && <p className="text-ink/55">No open games right now. Book a slot and host one!</p>}
+          {games?.length === 0 && <p className="text-ink/60">No open games right now. Book a slot and host one!</p>}
         </div>
       </div>
     </main>

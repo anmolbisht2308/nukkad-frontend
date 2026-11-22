@@ -51,7 +51,7 @@ function CityPicker({ dark }: { dark: boolean }) {
                 className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm hover:bg-ink/5 ${c.slug === city.slug ? "font-semibold" : ""}`}
               >
                 {c.name}
-                <span className={`rounded-full px-2 py-0.5 text-[10px] ${c.status === "live" ? "bg-mint/20 text-emerald-700" : c.status === "launching" ? "bg-sun/30 text-amber-700" : "bg-ink/5 text-ink/50"}`}>
+                <span className={`rounded-full px-2 py-0.5 text-[10px] ${c.status === "live" ? "bg-mint/20 text-emerald-700" : c.status === "launching" ? "bg-sun/30 text-amber-700" : "bg-ink/5 text-ink/60"}`}>
                   {c.status === "live" ? "Live" : c.status === "launching" ? "Launching" : "Soon"}
                 </span>
               </button>
@@ -90,7 +90,7 @@ function AccountMenu({ dark }: { dark: boolean }) {
           <>
             <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
             <motion.div initial={{ opacity: 0, y: -6, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -6 }} className="absolute right-0 top-10 z-50 w-60 overflow-hidden rounded-2xl bg-white p-1 text-ink shadow-2xl ring-1 ring-ink/5">
-              <p className="px-3 pb-1 pt-2 text-xs text-ink/50">{user.name ?? `+91 ${user.phone}`}</p>
+              <p className="px-3 pb-1 pt-2 text-xs text-ink/60">{user.name ?? `+91 ${user.phone}`}</p>
               {items.map((i) => (
                 <Link key={i.href} href={i.href} onClick={() => setOpen(false)} className="block rounded-xl px-3 py-2 text-sm hover:bg-ink/5">
                   {i.label}
