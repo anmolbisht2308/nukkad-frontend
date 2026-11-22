@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "@/components/Auth";
 import Link from "next/link";
-import { api, API_URL, ApiError, isLive, type Business, type Deal } from "@/lib/api";
+import { api, assetUrl, ApiError, isLive, type Business, type Deal } from "@/lib/api";
 import { untilIST, whenIST } from "@/lib/format";
 
 type CampaignRow = {
@@ -239,7 +239,7 @@ export default function Merchant() {
               <div className="relative h-24 w-32 shrink-0 overflow-hidden rounded-2xl" style={{ background: `linear-gradient(135deg, ${biz.theme.from}, ${biz.theme.to})` }}>
                 {biz.photo ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={`${API_URL}${biz.photo}`} alt="" className="h-full w-full object-cover" />
+                  <img src={assetUrl(biz.photo)} alt="" className="h-full w-full object-cover" />
                 ) : (
                   <span className="grid h-full place-items-center text-4xl">{biz.emoji}</span>
                 )}

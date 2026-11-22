@@ -1,4 +1,6 @@
 export const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
+/** Uploaded files are either API-relative (/uploads/… in dev) or absolute (Cloud Storage in production). */
+export const assetUrl = (p: string) => (/^https?:\/\//.test(p) ? p : `${API_URL}${p}`);
 
 export class ApiError extends Error {
   constructor(public status: number, message: string) {

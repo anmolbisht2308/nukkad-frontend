@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
-import { api, API_URL, isLive, type Business, type Deal } from "@/lib/api";
+import { api, assetUrl, isLive, type Business, type Deal } from "@/lib/api";
 import { compact, kindLabel, mapsLink, untilIST, whenIST } from "@/lib/format";
 import { useAuth } from "../Auth";
 import { useCoupon } from "../ui/Coupon";
@@ -47,7 +47,7 @@ export default function BusinessView({ business: b, deals }: { business: Busines
       <section className="relative overflow-hidden pb-16 pt-28 text-white" style={{ background: `linear-gradient(135deg, ${b.theme.from}, ${b.theme.to})` }}>
         {b.photo && (
           <>
-            <motion.img src={`${API_URL}${b.photo}`} alt="" initial={{ scale: 1.15 }} animate={{ scale: 1 }} transition={{ duration: 1.6, ease }} className="absolute inset-0 h-full w-full object-cover" />
+            <motion.img src={assetUrl(b.photo)} alt="" initial={{ scale: 1.15 }} animate={{ scale: 1 }} transition={{ duration: 1.6, ease }} className="absolute inset-0 h-full w-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/10" />
           </>
         )}

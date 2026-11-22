@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "motion/react";
 import { useState } from "react";
-import { api, API_URL, ApiError, type Business, type Deal, type Event } from "@/lib/api";
+import { api, assetUrl, ApiError, type Business, type Deal, type Event } from "@/lib/api";
 import { compact, kindLabel, timeIST, untilIST, whenIST } from "@/lib/format";
 import { useAuth } from "../Auth";
 import { useCoupon } from "../ui/Coupon";
@@ -24,7 +24,7 @@ function Art({ b, className = "" }: { b: Pick<Business, "theme" | "emoji"> & { p
     return (
       <div className={`relative overflow-hidden ${className}`} style={grad(b)}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={`${API_URL}${b.photo}`} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+        <img src={assetUrl(b.photo)} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
       </div>
     );
   return (
