@@ -38,4 +38,9 @@ English / Hindi toggle and city picker in the header; app-style bottom tab bar o
 
 ## Deploy
 
-Vercel: set `NEXT_PUBLIC_API_URL` to the deployed API URL.
+Live at **https://nukkad.anmolbisht.com** (Netlify, Next.js runtime; DNS on Cloudflare as a DNS-only CNAME to `nukkad-832.netlify.app`).
+
+- **Every push to `main` deploys automatically** (Netlify is linked to this repo). Settings come from `netlify.toml`.
+- `NEXT_PUBLIC_API_URL` is set in Netlify's environment variables to the Cloud Run API. It is read at build time, so changing it needs a redeploy.
+- Manual deploy from a laptop, if ever needed: `npx netlify-cli deploy --build --prod` (after `netlify link`).
+- The API must list the site's URL in its `WEB_ORIGIN` (see nukkad-server).
