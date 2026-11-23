@@ -113,7 +113,7 @@ export default function BusinessView({ business: b, deals }: { business: Busines
 
           {live && b.live?.spot && (
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, ease }} className="rounded-3xl bg-white p-6 shadow-[0_20px_60px_-35px_rgba(0,0,0,0.35)]">
-              <p className="flex items-center gap-2 text-sm font-semibold text-emerald-600"><span className="live-dot" /> Parked right now</p>
+              <p className="flex items-center gap-2 text-sm font-semibold text-emerald-700"><span className="live-dot" /> Parked right now</p>
               <p className="mt-1 font-display text-2xl font-bold">{b.live.spot}</p>
               {b.live.location && (
                 <a href={mapsLink(b.live.location.coordinates)} target="_blank" rel="noreferrer" className="btn-primary mt-4 inline-block">

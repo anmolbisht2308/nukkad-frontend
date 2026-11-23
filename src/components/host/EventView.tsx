@@ -93,7 +93,7 @@ function StallMap({ slug, title }: { slug: string; title: string }) {
                   onClick={() => withLogin(() => setPicked(s))}
                   title={taken ? s.business?.name ?? "Booked" : `${s.label} · ${rupees(s.price)}`}
                   className={`relative flex h-20 flex-col items-center justify-center rounded-2xl text-xs font-semibold transition ${
-                    taken ? "text-white" : sel ? "bg-saffron text-white ring-4 ring-saffron/30" : "bg-mint/25 text-ink hover:bg-mint/45"
+                    taken ? "text-white" : sel ? "bg-saffron-deep text-white ring-4 ring-saffron/30" : "bg-mint/25 text-ink hover:bg-mint/45"
                   } ${s.size === "large" ? "ring-1 ring-inset ring-ink/10" : ""}`}
                   style={taken && s.business ? { background: `linear-gradient(135deg, ${s.business.theme.from}, ${s.business.theme.to})` } : taken ? { background: "#0b0b0f" } : undefined}
                 >
@@ -124,7 +124,7 @@ function StallMap({ slug, title }: { slug: string; title: string }) {
             </p>
             {isMerchant ? (
               <div className="mt-3 flex flex-wrap gap-2">
-                <select value={biz} onChange={(e) => setBiz(e.target.value)} className="min-w-0 flex-1 rounded-xl border-2 border-ink/10 bg-white px-3 py-2.5 outline-none">
+                <select aria-label="Your business" value={biz} onChange={(e) => setBiz(e.target.value)} className="min-w-0 flex-1 rounded-xl border-2 border-ink/10 bg-white px-3 py-2.5 outline-none">
                   {mine.map((b) => (
                     <option key={b._id} value={b._id}>{b.emoji} {b.name}</option>
                   ))}

@@ -68,7 +68,7 @@ export default function CreatorStudio() {
 
   return (
     <main className="mx-auto max-w-5xl px-5 pb-24 pt-28">
-      <p className="text-sm font-semibold uppercase tracking-widest text-saffron">Creator studio</p>
+      <p className="text-sm font-semibold uppercase tracking-widest text-saffron-deep">Creator studio</p>
       <h1 className="font-display text-5xl font-extrabold tracking-tight">{creator ? `@${creator.handle}` : "Set up your creator profile"}</h1>
 
       <div className="mt-8 grid gap-6 md:grid-cols-[1fr_1.2fr]">
@@ -89,7 +89,7 @@ export default function CreatorStudio() {
           <div className="grid grid-cols-2 gap-3">
             <input required value={form.handle} onChange={(e) => setForm({ ...form, handle: e.target.value })} placeholder="@handle" className="rounded-2xl border-2 border-ink/10 px-4 py-3 outline-none focus:border-saffron" />
             <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Display name" className="rounded-2xl border-2 border-ink/10 px-4 py-3 outline-none focus:border-saffron" />
-            <select value={form.platform} onChange={(e) => setForm({ ...form, platform: e.target.value })} className="rounded-2xl border-2 border-ink/10 px-4 py-3 outline-none">
+            <select aria-label="Platform" value={form.platform} onChange={(e) => setForm({ ...form, platform: e.target.value })} className="rounded-2xl border-2 border-ink/10 px-4 py-3 outline-none">
               {["instagram", "youtube", "facebook", "moj"].map((p) => (
                 <option key={p}>{p}</option>
               ))}

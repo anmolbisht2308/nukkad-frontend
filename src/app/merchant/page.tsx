@@ -129,7 +129,7 @@ export default function Merchant() {
           <p className="text-sm font-medium text-ink/60">Business dashboard</p>
           <h1 className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl">{biz ? `${biz.emoji} ${biz.name}` : "…"}</h1>
         </div>
-        <select value={sel ?? ""} onChange={(e) => setSel(e.target.value)} className="rounded-2xl border-2 border-ink/10 bg-white px-4 py-2.5 font-medium outline-none">
+        <select aria-label="Choose business" value={sel ?? ""} onChange={(e) => setSel(e.target.value)} className="rounded-2xl border-2 border-ink/10 bg-white px-4 py-2.5 font-medium outline-none">
           {items.map((b) => (
             <option key={b._id} value={b._id}>{b.name}</option>
           ))}
@@ -198,8 +198,13 @@ export default function Merchant() {
                 <p className="text-sm text-ink/60">{biz.live?.until && untilIST(biz.live.until)}</p>
                 <button
                   onClick={async () => {
-                    await api(`/api/merchant/businesses/${biz._id}/live`, { method: "DELETE" });
-                    await loadAll();
+                    try {
+                      await api(`/api/merchant/businesses/${biz._id}/live`, { method: "DELETE" });
+                      await loadAll();
+                      toast.info("Closed for today", { emoji: "🌙" });
+                    } catch (x) {
+                      toast.error(x);
+                    }
                   }}
                   className="mt-3 rounded-xl bg-ink px-4 py-2 text-sm font-semibold text-cream"
                 >
@@ -208,7 +213,7 @@ export default function Merchant() {
               </div>
             ) : (
               <div className="mt-4 space-y-3">
-                <select value={spot} onChange={(e) => setSpot(e.target.value)} className="w-full rounded-2xl border-2 border-ink/10 px-4 py-3 outline-none">
+                <select aria-label="Where are you parked" value={spot} onChange={(e) => setSpot(e.target.value)} className="w-full rounded-2xl border-2 border-ink/10 px-4 py-3 outline-none">
                   {SPOTS.map((s) => (
                     <option key={s.label}>{s.label}</option>
                   ))}
@@ -216,7 +221,7 @@ export default function Merchant() {
                 <label className="flex items-center justify-between text-sm">
                   Serving for <span className="font-semibold">{hours} hours</span>
                 </label>
-                <input type="range" min={1} max={10} value={hours} onChange={(e) => setHours(Number(e.target.value))} className="w-full accent-saffron" />
+                <input type="range" aria-label="Hours serving" min={1} max={10} value={hours} onChange={(e) => setHours(Number(e.target.value))} className="w-full accent-saffron" />
                 <div className="flex gap-2">
                   <button onClick={() => goLive()} className="btn-primary flex-1">🚚 Go live here</button>
                   <button onClick={useGps} className="rounded-2xl bg-ink/5 px-4 font-semibold">📍 GPS</button>
@@ -270,7 +275,7 @@ export default function Merchant() {
         <section className="rounded-3xl bg-white p-6">
           <div className="flex items-center justify-between">
             <h2 className="font-display text-2xl font-bold">Creator campaigns</h2>
-            <Link href="/creators" className="text-sm font-semibold text-saffron">Hire a creator →</Link>
+            <Link href="/creators" className="text-sm font-semibold text-saffron-deep">Hire a creator →</Link>
           </div>
           {campaigns.length === 0 && <p className="mt-2 text-sm text-ink/60">No campaigns yet. Local creators post about you and you see exactly how many customers they bring.</p>}
           <div className="mt-3 divide-y divide-ink/5">

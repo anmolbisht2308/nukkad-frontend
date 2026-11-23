@@ -11,12 +11,12 @@ import { toast } from "@/components/ui/Toast";
 
 const input = "w-full rounded-2xl border-2 border-ink/10 bg-white px-4 py-2.5 outline-none focus:border-saffron";
 
-function Stepper({ v, set }: { v: number; set: (n: number) => void }) {
+function Stepper({ v, set, label }: { v: number; set: (n: number) => void; label: string }) {
   return (
     <div className="flex items-center rounded-xl bg-ink/5">
-      <button type="button" onClick={() => set(Math.max(0, v - 1))} className="px-2.5 py-1.5 text-lg leading-none" aria-label="Minus">−</button>
-      <input value={v} onChange={(e) => set(Math.max(0, Number(e.target.value.replace(/\D/g, "")) || 0))} inputMode="numeric" className="w-12 bg-transparent text-center font-mono font-bold tabular-nums outline-none" />
-      <button type="button" onClick={() => set(v + 1)} className="px-2.5 py-1.5 text-lg leading-none" aria-label="Plus">+</button>
+      <button type="button" onClick={() => set(Math.max(0, v - 1))} className="px-2.5 py-1.5 text-lg leading-none" aria-label={`${label}: minus one`}>−</button>
+      <input aria-label={label} value={v} onChange={(e) => set(Math.max(0, Number(e.target.value.replace(/\D/g, "")) || 0))} inputMode="numeric" className="w-12 bg-transparent text-center font-mono font-bold tabular-nums outline-none" />
+      <button type="button" onClick={() => set(v + 1)} className="px-2.5 py-1.5 text-lg leading-none" aria-label={`${label}: plus one`}>+</button>
     </div>
   );
 }
@@ -41,16 +41,16 @@ function ScoreRow({ m, onSaved }: { m: Match; onSaved: () => void }) {
     <div className={`rounded-2xl p-3 ${m.status === "live" ? "bg-chili/10 ring-1 ring-chili/30" : m.status === "done" ? "bg-ink/[0.03]" : "bg-white ring-1 ring-ink/5"}`}>
       <div className="grid grid-cols-[1fr_auto] items-center gap-2">
         <span className="truncate text-sm font-semibold">{m.teamA?.name}</span>
-        <Stepper v={a} set={setA} />
+        <Stepper v={a} set={setA} label={`${m.teamA?.name ?? "Team A"} score`} />
         <span className="truncate text-sm font-semibold">{m.teamB?.name}</span>
-        <Stepper v={b} set={setB} />
+        <Stepper v={b} set={setB} label={`${m.teamB?.name ?? "Team B"} score`} />
       </div>
       <div className="mt-2 flex items-center justify-between gap-2">
         <span className="text-[11px] uppercase tracking-wider text-ink/60">
           {m.status === "live" ? "🔴 live" : m.status === "done" ? `✓ ${m.winner?.name ?? "draw"}` : "scheduled"} {m.court && `· ${m.court}`}
         </span>
         <div className="flex gap-1.5">
-          <button disabled={busy} onClick={() => save("live")} className="rounded-lg bg-chili px-3 py-1 text-xs font-semibold text-white disabled:opacity-50">Live</button>
+          <button disabled={busy} onClick={() => save("live")} className="rounded-lg bg-chili-deep px-3 py-1 text-xs font-semibold text-white disabled:opacity-50">Live</button>
           <button disabled={busy} onClick={() => save("done")} className="rounded-lg bg-ink px-3 py-1 text-xs font-semibold text-cream disabled:opacity-50">Final</button>
         </div>
       </div>
@@ -98,18 +98,23 @@ function CreateTournament({ onCreated }: { onCreated: (slug: string) => void }) 
       }}
     >
       <input required minLength={3} value={f.title} onChange={(e) => set({ title: e.target.value })} placeholder="Tournament name, e.g. Winter Box Cricket Cup" className={`${input} sm:col-span-2`} />
-      <select value={f.sport} onChange={(e) => set({ sport: e.target.value })} className={input}>
+      <select aria-label="Sport" value={f.sport} onChange={(e) => set({ sport: e.target.value })} className={input}>
         {SPORTS.map((s) => (
           <option key={s} value={s}>{sportEmoji[s]} {s[0].toUpperCase() + s.slice(1)}</option>
         ))}
       </select>
-      <select value={f.format} onChange={(e) => set({ format: e.target.value })} className={input}>
+      <select aria-label="Format" value={f.format} onChange={(e) => set({ format: e.target.value })} className={input}>
         <option value="knockout">Knockout (bracket)</option>
         <option value="league">League (round robin)</option>
       </select>
       <label className="text-xs font-semibold text-ink/60">
         Starts
-        <input required type="datetime-local" value={f.startsAt} onChange={(e) => set({ startsAt: e.target.value })} className={`${input} mt-1 font-normal text-ink`} />
+        <input
+          required
+          type="datetime-local"
+          // earliest pickable start is "now" in the browser's local time; set on focus so prerendering stays static
+          onFocus={(e) => (e.currentTarget.min = new Date(Date.now() - new Date().getTimezoneOffset() * 60_000).toISOString().slice(0, 16))}
+          value={f.startsAt} onChange={(e) => set({ startsAt: e.target.value })} className={`${input} mt-1 font-normal text-ink`} />
       </label>
       <label className="text-xs font-semibold text-ink/60">
         Venue
@@ -165,15 +170,15 @@ function StallGrid() {
         }
       }}
     >
-      <select value={f.slug} onChange={(e) => setF({ ...f, slug: e.target.value })} className={input}>
+      <select aria-label="Event" value={f.slug} onChange={(e) => setF({ ...f, slug: e.target.value })} className={input}>
         {events.map((ev) => (
           <option key={ev._id} value={ev.slug}>{ev.emoji} {ev.title}</option>
         ))}
       </select>
-      <input type="number" min={1} max={8} value={f.rows} onChange={(e) => setF({ ...f, rows: Number(e.target.value) })} title="Rows" className={input} />
-      <input type="number" min={1} max={12} value={f.cols} onChange={(e) => setF({ ...f, cols: Number(e.target.value) })} title="Stalls per row" className={input} />
-      <input type="number" min={0} value={f.price} onChange={(e) => setF({ ...f, price: Number(e.target.value) })} title="Price (₹)" className={input} />
-      <select value={f.size} onChange={(e) => setF({ ...f, size: e.target.value })} className={input}>
+      <input type="number" min={1} max={8} value={f.rows} onChange={(e) => setF({ ...f, rows: Number(e.target.value) })} title="Rows" aria-label="Rows" className={input} />
+      <input type="number" min={1} max={12} value={f.cols} onChange={(e) => setF({ ...f, cols: Number(e.target.value) })} title="Stalls per row" aria-label="Stalls per row" className={input} />
+      <input type="number" min={0} value={f.price} onChange={(e) => setF({ ...f, price: Number(e.target.value) })} title="Price (₹)" aria-label="Stall price in rupees" className={input} />
+      <select aria-label="Stall size" value={f.size} onChange={(e) => setF({ ...f, size: e.target.value })} className={input}>
         <option value="small">Small</option>
         <option value="large">Large</option>
       </select>
@@ -191,7 +196,8 @@ export default function HostConsole() {
   const [shuffle, setShuffle] = useState(false);
   const [tick, setTick] = useState(0);
   const allowed = user?.role === "organizer" || user?.role === "merchant" || user?.role === "admin";
-  const canStalls = user?.role === "organizer" || user?.role === "admin";
+  // event stall layouts are set up by Nukkad admins (events have no owner account yet)
+  const canStalls = user?.role === "admin";
 
 
   useEffect(() => {
@@ -290,7 +296,7 @@ export default function HostConsole() {
                       toast.error(x);
                     }
                   }}
-                  className="rounded-xl bg-saffron px-4 py-2 text-sm font-semibold text-white"
+                  className="rounded-xl bg-saffron-deep px-4 py-2 text-sm font-semibold text-white"
                 >
                   {detail.matches.length ? "Regenerate fixtures" : "Generate fixtures"}
                 </button>

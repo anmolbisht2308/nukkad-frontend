@@ -58,7 +58,7 @@ function HireSheet({ creator, onClose }: { creator: Creator; onClose: () => void
           >
             <h2 className="font-display text-2xl font-bold">Hire @{creator.handle}</h2>
             <p className="text-sm text-ink/60">Usually ₹{creator.ratePerPost.toLocaleString("en-IN")} per post</p>
-            <select value={businessId} onChange={(e) => setBusinessId(e.target.value)} className="mt-4 w-full rounded-2xl border-2 border-ink/10 bg-white px-4 py-3 outline-none">
+            <select aria-label="Business to promote" value={businessId} onChange={(e) => setBusinessId(e.target.value)} className="mt-4 w-full rounded-2xl border-2 border-ink/10 bg-white px-4 py-3 outline-none">
               {biz.map((b) => (
                 <option key={b._id} value={b._id}>{b.name}</option>
               ))}
@@ -69,7 +69,7 @@ function HireSheet({ creator, onClose }: { creator: Creator; onClose: () => void
               <input type="number" min={100} value={budget} onChange={(e) => setBudget(Number(e.target.value))} className="w-full bg-transparent outline-none" />
             </label>
             <button disabled={state === "busy" || !businessId} className="btn-primary mt-4 w-full">{state === "busy" ? "Sending…" : "Send request"}</button>
-            {err && <p className="mt-2 text-sm text-chili">{err}</p>}
+            {err && <p className="mt-2 text-sm text-chili-deep">{err}</p>}
           </form>
         )}
       </motion.div>
@@ -95,7 +95,7 @@ export default function Creators() {
     <main className="mx-auto max-w-6xl px-5 pb-24 pt-28">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-widest text-saffron">Creator marketplace</p>
+          <p className="text-sm font-semibold uppercase tracking-widest text-saffron-deep">Creator marketplace</p>
           <h1 className="mt-1 max-w-2xl font-display text-5xl font-extrabold tracking-tight sm:text-6xl">Local voices people actually follow.</h1>
           <p className="mt-2 max-w-xl text-ink/60">Hire {city.name}&apos;s food bloggers, runners and riders. Every campaign comes with its own tracked deal, so you see the footfall, not just the likes.</p>
         </div>

@@ -68,7 +68,7 @@ function GameRow({ g, i, onChange }: { g: Game; i: number; onChange: () => void 
         {SPORT_META[g.sport].emoji}
       </div>
       <div className="min-w-0 flex-1">
-        <p className="text-xs font-semibold uppercase tracking-wide text-saffron">{whenIST(g.startsAt)}</p>
+        <p className="text-xs font-semibold uppercase tracking-wide text-saffron-deep">{whenIST(g.startsAt)}</p>
         <p className="font-display text-lg font-bold leading-tight">
           {SPORT_META[g.sport].label} at {g.business.name}
         </p>

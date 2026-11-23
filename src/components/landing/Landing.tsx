@@ -89,7 +89,7 @@ function Pillars({ stats }: { stats: Stats | null }) {
   return (
     <section className="mx-auto max-w-6xl px-5 py-24 sm:py-32">
       <motion.h2 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease }} className="max-w-2xl font-display text-4xl font-extrabold leading-tight tracking-tight sm:text-6xl">
-        One app for everything happening on your <span className="text-saffron">nukkad</span>.
+        One app for everything happening on your <span className="text-saffron-deep">nukkad</span>.
       </motion.h2>
       <div className="mt-14 grid gap-5 md:grid-cols-3">
         {pillars.map((p, i) => (
@@ -229,7 +229,7 @@ function Waitlist() {
               <input required value={phone} onChange={(e) => setPhone(e.target.value)} inputMode="numeric" placeholder="WhatsApp number" className="rounded-2xl border-2 border-ink/10 px-4 py-3 outline-none focus:border-saffron" />
             </div>
             <button disabled={busy} className="btn-primary mt-4 w-full">{busy ? "Joining…" : "Join the list"}</button>
-            {err && <p className="mt-3 text-sm font-medium text-chili">{err}</p>}
+            {err && <p className="mt-3 text-sm font-medium text-chili-deep">{err}</p>}
           </form>
         )}
       </div>

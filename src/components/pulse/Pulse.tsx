@@ -80,7 +80,7 @@ export default function Pulse() {
         </div>
       </div>
 
-      {err && <p className="mt-10 px-5 text-chili">Couldn&apos;t reach the server. Is the API running?</p>}
+      {err && <p className="mt-10 px-5 text-chili-deep">Couldn&apos;t reach the server. Is the API running?</p>}
       <AnimatePresence mode="wait">
         {!feed ? (
           <motion.div key="s" exit={{ opacity: 0 }}>

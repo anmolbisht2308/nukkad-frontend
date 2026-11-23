@@ -69,7 +69,7 @@ export default function TournamentList() {
 
   return (
     <main className="mx-auto max-w-6xl px-5 pb-24 pt-28">
-      <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-sm font-semibold uppercase tracking-widest text-saffron">
+      <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-sm font-semibold uppercase tracking-widest text-saffron-deep">
         Compete in {BRAND.city}
       </motion.p>
       <motion.h1 className="hero-in mt-2 max-w-3xl font-display text-5xl font-extrabold tracking-tight sm:text-7xl">
@@ -85,7 +85,7 @@ export default function TournamentList() {
               <span className={`relative flex items-center gap-1.5 ${tab === s ? "text-cream" : "text-ink/60"}`}>
                 {s === "live" && <span className="live-dot !bg-chili" />}
                 {statusLabel[s]}
-                <span className="text-xs opacity-60">{count(s)}</span>
+                <span className="text-xs">{count(s)}</span>
               </span>
             </button>
           ))}
@@ -95,7 +95,7 @@ export default function TournamentList() {
         </Link>
       </div>
 
-      {err && <p className="mt-10 text-chili">Couldn&apos;t load tournaments. Is the API running?</p>}
+      {err && <p className="mt-10 text-chili-deep">Couldn&apos;t load tournaments. Is the API running?</p>}
       {!items && !err && (
         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {[0, 1, 2].map((i) => (

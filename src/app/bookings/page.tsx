@@ -16,7 +16,7 @@ const statusChip: Record<Booking["status"], string> = {
   confirmed: "bg-mint/25 text-emerald-800",
   cancelled: "bg-ink/5 text-ink/60",
   completed: "bg-sky/20 text-sky-900",
-  no_show: "bg-chili/10 text-chili",
+  no_show: "bg-chili/10 text-chili-deep",
 };
 
 function HostForm({ b, onDone }: { b: Booking; onDone: () => void }) {
@@ -66,7 +66,7 @@ function HostForm({ b, onDone }: { b: Booking; onDone: () => void }) {
             <button className="btn-primary flex-1 py-2.5 text-sm">Post open game</button>
             <button type="button" onClick={() => setOpen(false)} className="rounded-2xl px-3 text-sm text-ink/60">Cancel</button>
           </div>
-          {err && <p className="text-xs text-chili">{err}</p>}
+          {err && <p className="text-xs text-chili-deep">{err}</p>}
         </motion.form>
       )}
     </div>
@@ -84,7 +84,7 @@ function BookingCard({ b, i, reload }: { b: Booking; i: number; reload: () => vo
           {SPORT_META[b.court.sport].emoji}
         </Link>
         <div className="min-w-0 flex-1">
-          <p className="text-xs font-semibold uppercase tracking-wide text-saffron">{label}</p>
+          <p className="text-xs font-semibold uppercase tracking-wide text-saffron-deep">{label}</p>
           <p className="font-display text-lg font-bold leading-tight">{b.business.name}</p>
           <p className="text-sm text-ink/60">
             {b.court.name} · {rupees(b.amount)} · {b.payment.mode === "online" ? (b.payment.status === "refund_due" ? "refund on its way" : "paid online") : b.payment.status === "paid" ? "paid at venue" : "pay at venue"}
@@ -115,7 +115,7 @@ function BookingCard({ b, i, reload }: { b: Booking; i: number; reload: () => vo
                     href={whatsappShare(`Hey ${p.name}! Booked ${b.court.name} at ${b.business.name}, ${label} 🏟️ Your share is ${rupees(p.share)}. Please send it on UPI 🙏`)}
                     target="_blank"
                     rel="noreferrer"
-                    className="rounded-full bg-[#25D366] px-2 py-1.5 text-xs font-semibold text-white"
+                    className="rounded-full bg-[#25D366] px-2 py-1.5 text-xs font-semibold text-ink"
                     title="Remind on WhatsApp"
                   >
                     WhatsApp
@@ -154,7 +154,7 @@ function BookingCard({ b, i, reload }: { b: Booking; i: number; reload: () => vo
                     toast.error(x);
                   }
                 }}
-                className="flex-1 rounded-2xl py-2.5 text-sm font-semibold text-chili hover:bg-chili/5"
+                className="flex-1 rounded-2xl py-2.5 text-sm font-semibold text-chili-deep hover:bg-chili/5"
               >
                 Cancel
               </button>

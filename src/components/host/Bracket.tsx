@@ -82,7 +82,7 @@ export function Bracket({ matches, rounds }: { matches: Match[]; rounds: number 
               style={{ left: (m.round - 1) * (COL + GAP), top: 32 + yCenter(m.round, m.order) - H / 2, width: COL, height: H }}
             >
               {live && (
-                <span className="absolute right-2 top-1 flex items-center gap-1 text-[10px] font-bold uppercase text-chili">
+                <span className="absolute right-2 top-1 flex items-center gap-1 text-[10px] font-bold uppercase text-chili-deep">
                   <span className="live-dot !bg-chili" /> Live
                 </span>
               )}

@@ -188,7 +188,7 @@ export default function BookingView({ venue, courts }: { venue: Venue; courts: C
         </div>
         {court && (
           <p className="mt-3 text-sm text-ink/60">
-            {rupees(court.pricePerHour)}/hr · <span className="font-semibold text-saffron">🔥 peak {rupees(court.peakPricePerHour)}/hr</span> ({hourLabel(court.peakFrom)}–{hourLabel(court.peakTo)}) · tap a slot, tap the next one to add an hour
+            {rupees(court.pricePerHour)}/hr · <span className="font-semibold text-saffron-deep">🔥 peak {rupees(court.peakPricePerHour)}/hr</span> ({hourLabel(court.peakFrom)}–{hourLabel(court.peakTo)}) · tap a slot, tap the next one to add an hour
           </p>
         )}
 
@@ -217,7 +217,7 @@ export default function BookingView({ venue, courts }: { venue: Venue; courts: C
                     <span className="relative block font-display text-lg font-bold">{hourLabel(s.hour)}</span>
                     <span className="relative block text-xs">
                       {s.status === "booked" ? "Booked" : s.status === "past" ? "—" : rupees(s.price)}
-                      {s.peak && free && <span className={`ml-1 ${picked ? "text-sun" : "text-saffron"}`}>🔥</span>}
+                      {s.peak && free && <span className={`ml-1 ${picked ? "text-sun" : "text-saffron-deep"}`}>🔥</span>}
                     </span>
                   </motion.button>
                 );
@@ -282,7 +282,7 @@ export default function BookingView({ venue, courts }: { venue: Venue; courts: C
               </div>
               {people > 1 && <p className="mt-2 text-xs text-cream/60">You pay the venue; {people - 1} friend{people > 2 ? "s" : ""} pay you back {rupees(share)} each. We&apos;ll track who has paid.</p>}
               {!user && <p className="mt-2 text-xs text-cream/50">You&apos;ll log in with your phone number first.</p>}
-              {err && <p className="mt-2 text-sm font-medium text-chili">{err}</p>}
+              {err && <p className="mt-2 text-sm font-medium text-chili-deep">{err}</p>}
             </div>
           </motion.div>
         )}
@@ -302,7 +302,7 @@ export default function BookingView({ venue, courts }: { venue: Venue; courts: C
               <p className="mt-1 text-ink/60">{done.label}</p>
               <p className="mt-1 text-sm text-ink/60">{venue.name} · {rupees(done.amount)}</p>
               {done.share < done.amount && (
-                <a href={whatsappShare(`Booked ${done.label} at ${venue.name} 🏟️ Your share is ${rupees(done.share)}. Send it to me on UPI 🙏`)} target="_blank" rel="noreferrer" className="mt-4 block rounded-2xl bg-[#25D366] py-3 font-semibold text-white">
+                <a href={whatsappShare(`Booked ${done.label} at ${venue.name} 🏟️ Your share is ${rupees(done.share)}. Send it to me on UPI 🙏`)} target="_blank" rel="noreferrer" className="mt-4 block rounded-2xl bg-[#25D366] py-3 font-semibold text-ink">
                   Ask friends for their share on WhatsApp
                 </a>
               )}

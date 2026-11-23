@@ -128,7 +128,7 @@ export default function Me() {
               {pts?.history.map((h) => (
                 <div key={h._id} className="flex items-center justify-between py-2 text-sm">
                   <span className="min-w-0 truncate">{h.reason}</span>
-                  <span className="shrink-0 font-semibold text-emerald-600">+{h.amount}</span>
+                  <span className="shrink-0 font-semibold text-emerald-700">+{h.amount}</span>
                 </div>
               ))}
             </div>

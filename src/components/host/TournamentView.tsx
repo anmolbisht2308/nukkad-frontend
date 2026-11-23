@@ -53,7 +53,7 @@ function FixtureRow({ m }: { m: Match }) {
     <div className="flex items-center gap-3 rounded-2xl bg-white px-4 py-3 text-sm shadow-[0_10px_30px_-24px_rgba(0,0,0,0.4)]">
       <span className="w-16 shrink-0 text-xs text-ink/60">{m.startsAt ? timeIST(m.startsAt) : ""}</span>
       <span className={`min-w-0 flex-1 truncate text-right ${winA ? "font-bold" : winB ? "text-ink/60" : ""}`}>{m.teamA?.name ?? "TBD"}</span>
-      <span className={`w-16 shrink-0 rounded-lg py-1 text-center font-mono font-bold tabular-nums ${m.status === "live" ? "bg-chili text-white" : m.status === "done" ? "bg-ink text-cream" : "bg-ink/5 text-ink/60"}`}>
+      <span className={`w-16 shrink-0 rounded-lg py-1 text-center font-mono font-bold tabular-nums ${m.status === "live" ? "bg-chili-deep text-white" : m.status === "done" ? "bg-ink text-cream" : "bg-ink/5 text-ink/60"}`}>
         {m.status === "scheduled" ? "vs" : `${m.scoreA ?? 0}–${m.scoreB ?? 0}`}
       </span>
       <span className={`min-w-0 flex-1 truncate ${winB ? "font-bold" : winA ? "text-ink/60" : ""}`}>{m.teamB?.name ?? (m.bye ? "Bye" : "TBD")}</span>

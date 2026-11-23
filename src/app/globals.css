@@ -12,6 +12,9 @@
   --color-mint: #2ee6a6;
   --color-sky: #4cc9f0;
   --color-sun: #ffd23f;
+  /* darker shades for text and small labels on light backgrounds (WCAG AA 4.5:1) */
+  --color-saffron-deep: #b34700;
+  --color-chili-deep: #c8103f;
 
   /* extra breakpoints: xs = most phones (360px+), 3xl = big desktop monitors */
   --breakpoint-xs: 22.5rem;

@@ -43,7 +43,7 @@ export function TruckCard({ b, i }: { b: Business; i: number }) {
       <Link href={`/b/${b.slug}`} className="group block overflow-hidden rounded-3xl bg-white shadow-[0_16px_40px_-24px_rgba(0,0,0,0.35)] transition hover:-translate-y-1">
         <Art b={b} className="h-32" />
         <div className="p-4">
-          <p className="flex items-center gap-2 text-xs font-semibold text-emerald-600">
+          <p className="flex items-center gap-2 text-xs font-semibold text-emerald-700">
             <span className="live-dot" /> LIVE {b.live?.until && untilIST(b.live.until)}
           </p>
           <p className="mt-1 font-display text-lg font-bold leading-tight">{b.name}</p>
@@ -64,7 +64,7 @@ export function OpeningCard({ b, i }: { b: Business; i: number }) {
         <Art b={b} className="h-28" />
       </Link>
       <div className="p-4">
-        <p className="text-xs font-semibold uppercase tracking-wider text-saffron">Opening in</p>
+        <p className="text-xs font-semibold uppercase tracking-wider text-saffron-deep">Opening in</p>
         {b.opening.date && (
           <p className="mt-1 text-lg">
             <Countdown to={b.opening.date} compact />
@@ -100,7 +100,7 @@ export function NewCard({ b, i }: { b: Business; i: number }) {
       <Link href={`/b/${b.slug}`} className="group block">
         <div className="relative overflow-hidden rounded-3xl">
           <Art b={b} className="aspect-[4/5]" />
-          <span className="absolute left-3 top-3 rounded-full bg-white px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-chili">New</span>
+          <span className="absolute left-3 top-3 rounded-full bg-white px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-chili-deep">New</span>
         </div>
         <p className="mt-3 font-display text-lg font-bold leading-tight">{b.name}</p>
         <p className="text-sm text-ink/60">{kindLabel[b.kind]} · {b.area}</p>
@@ -145,7 +145,7 @@ export function EventCard({ e, i }: { e: Event; i: number }) {
     <motion.div {...cardIn(i)} className="flex items-center gap-4 rounded-3xl bg-white p-4 shadow-[0_16px_40px_-28px_rgba(0,0,0,0.35)]">
       <div className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-cream text-3xl">{e.emoji}</div>
       <div className="min-w-0 flex-1">
-        <p className="text-xs font-semibold uppercase tracking-wide text-saffron">{whenIST(e.startsAt)}</p>
+        <p className="text-xs font-semibold uppercase tracking-wide text-saffron-deep">{whenIST(e.startsAt)}</p>
         <Link href={`/events/${e.slug}`} className="font-display text-lg font-bold leading-tight hover:underline">{e.title}</Link>
         <p className="truncate text-sm text-ink/60">📍 {e.venue} · {kindLabel[e.kind]} · {e.price ? `₹${e.price}` : "Free"}</p>
       </div>

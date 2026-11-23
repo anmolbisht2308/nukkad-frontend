@@ -35,7 +35,7 @@ const tone = (b: CalBooking) =>
     : b.status === "completed"
       ? "bg-sky/25 text-sky-950"
       : b.status === "no_show"
-        ? "bg-chili/15 text-chili"
+        ? "bg-chili/15 text-chili-deep"
         : b.status === "pending"
           ? "bg-sun/40 text-ink"
           : b.source === "walkin"
@@ -201,7 +201,7 @@ export default function VenueDashboard() {
         </div>
         <div className="flex gap-2">
           {venues && venues.length > 1 && (
-            <select value={venueId ?? ""} onChange={(e) => setVenueId(e.target.value)} className="rounded-2xl border-2 border-ink/10 bg-white px-4 py-2.5 font-medium outline-none">
+            <select aria-label="Choose venue" value={venueId ?? ""} onChange={(e) => setVenueId(e.target.value)} className="rounded-2xl border-2 border-ink/10 bg-white px-4 py-2.5 font-medium outline-none">
               {venues.map((v) => (
                 <option key={v._id} value={v._id}>{v.name}</option>
               ))}
@@ -306,7 +306,7 @@ export default function VenueDashboard() {
                         )
                       ) : (
                         !s.past && (
-                          <span className="text-ink/35">
+                          <span className="text-ink/60">
                             {rupees(s.price)}
                             {s.peak && " 🔥"}
                           </span>
@@ -379,7 +379,7 @@ export default function VenueDashboard() {
                     {modal.b.source !== "blocked" && modal.b.status === "confirmed" && (
                       <>
                         <button onClick={() => setStatus(modal.b, "completed")} className="rounded-2xl bg-mint py-3 font-semibold">✓ Played</button>
-                        <button onClick={() => setStatus(modal.b, "no_show")} className="rounded-2xl bg-chili/10 py-3 font-semibold text-chili">No-show</button>
+                        <button onClick={() => setStatus(modal.b, "no_show")} className="rounded-2xl bg-chili/10 py-3 font-semibold text-chili-deep">No-show</button>
                       </>
                     )}
                     {modal.b.status !== "cancelled" && modal.b.status !== "completed" && (
@@ -390,7 +390,7 @@ export default function VenueDashboard() {
                   </div>
                 </>
               )}
-              {err && <p className="mt-3 text-sm text-chili">{err}</p>}
+              {err && <p className="mt-3 text-sm text-chili-deep">{err}</p>}
             </motion.div>
           </>
         )}

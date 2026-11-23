@@ -70,7 +70,7 @@ function Sheet({ t, onClose, onDone }: { t: Tournament; onClose: () => void; onD
               submit();
             }}
           >
-            <p className="text-sm font-semibold uppercase tracking-wider text-saffron">Register a team</p>
+            <p className="text-sm font-semibold uppercase tracking-wider text-saffron-deep">Register a team</p>
             <h2 className="font-display text-3xl font-extrabold leading-tight">{t.title}</h2>
             <input
               required
@@ -101,14 +101,14 @@ function Sheet({ t, onClose, onDone }: { t: Tournament; onClose: () => void; onD
               </AnimatePresence>
             </div>
             {players.length < t.teamSize + 4 && (
-              <button type="button" onClick={() => setPlayers((ps) => [...ps, { name: "", phone: "" }])} className="mt-2 text-sm font-semibold text-saffron">
+              <button type="button" onClick={() => setPlayers((ps) => [...ps, { name: "", phone: "" }])} className="mt-2 text-sm font-semibold text-saffron-deep">
                 + Add substitute
               </button>
             )}
             <button disabled={step === "paying"} className="btn-primary mt-6 w-full">
               {step === "paying" ? "Processing…" : t.entryFee ? `Pay ${rupees(t.entryFee)} & register` : "Register for free"}
             </button>
-            {err && <p className="mt-3 text-sm font-medium text-chili">{err}</p>}
+            {err && <p className="mt-3 text-sm font-medium text-chili-deep">{err}</p>}
           </form>
         )}
       </motion.div>

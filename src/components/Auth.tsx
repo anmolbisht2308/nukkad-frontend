@@ -175,7 +175,7 @@ function LoginForm({ onClose, onDone }: { onClose: () => void; onDone: (u: User)
                 </motion.form>
               )}
             </AnimatePresence>
-            {err && <p className="mt-3 text-sm font-medium text-chili">{err}</p>}
+            {err && <p className="mt-3 text-sm font-medium text-chili-deep">{err}</p>}
           </motion.div>
         </>
   );

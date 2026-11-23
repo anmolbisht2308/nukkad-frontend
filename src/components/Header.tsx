@@ -101,7 +101,7 @@ function AccountMenu({ dark }: { dark: boolean }) {
                   logout();
                   setOpen(false);
                 }}
-                className="block w-full rounded-xl px-3 py-2 text-left text-sm text-chili hover:bg-chili/5"
+                className="block w-full rounded-xl px-3 py-2 text-left text-sm text-chili-deep hover:bg-chili/5"
               >
                 Log out
               </button>
@@ -158,7 +158,7 @@ export function Header() {
                 </motion.span>
                 <AnimatePresence>
                   {unread > 0 && (
-                    <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} className="absolute -right-1 -top-1 grid h-4 min-w-4 place-items-center rounded-full bg-chili px-1 text-[10px] font-bold text-white">
+                    <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} className="absolute -right-1 -top-1 grid h-4 min-w-4 place-items-center rounded-full bg-chili-deep px-1 text-[10px] font-bold text-white">
                       {unread > 9 ? "9+" : unread}
                     </motion.span>
                   )}

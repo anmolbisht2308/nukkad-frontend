@@ -27,13 +27,13 @@ export function LeagueTable({ rows }: { rows: StandingRow[] }) {
             transition={{ type: "spring", stiffness: 300, damping: 30, delay: i * 0.04 }}
             className={`grid grid-cols-[2rem_1fr_repeat(5,2.25rem)_3rem] items-center gap-1 px-4 py-3 text-sm sm:grid-cols-[2rem_1fr_repeat(5,3rem)_3.5rem] ${i === 0 ? "bg-saffron/10" : i % 2 ? "bg-cream/40" : ""}`}
           >
-            <span className={`grid h-6 w-6 place-items-center rounded-full text-xs font-bold ${i === 0 ? "bg-saffron text-white" : "bg-ink/5"}`}>{i + 1}</span>
+            <span className={`grid h-6 w-6 place-items-center rounded-full text-xs font-bold ${i === 0 ? "bg-saffron-deep text-white" : "bg-ink/5"}`}>{i + 1}</span>
             <span className="truncate font-semibold">{r.name}</span>
             <span className="text-center tabular-nums">{r.p}</span>
             <span className="text-center tabular-nums">{r.w}</span>
             <span className="text-center tabular-nums">{r.d}</span>
             <span className="text-center tabular-nums">{r.l}</span>
-            <span className={`text-center tabular-nums ${r.diff > 0 ? "text-emerald-600" : r.diff < 0 ? "text-chili" : ""}`}>{r.diff > 0 ? `+${r.diff}` : r.diff}</span>
+            <span className={`text-center tabular-nums ${r.diff > 0 ? "text-emerald-700" : r.diff < 0 ? "text-chili-deep" : ""}`}>{r.diff > 0 ? `+${r.diff}` : r.diff}</span>
             <span className="text-right font-display text-lg font-extrabold tabular-nums">{r.pts}</span>
           </motion.div>
         ))}
