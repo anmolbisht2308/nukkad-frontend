@@ -113,6 +113,13 @@ li {
   outline: 2.5px solid #ff7a1a;
   outline-offset: 3px;
 }
+/* Text fields show focus with their own orange border, never an extra ring on top of it */
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: none;
+  border-color: var(--color-saffron);
+}
 button,
 [role="button"],
 a,

@@ -57,6 +57,16 @@ These checks run on every public, signed-in, shop, venue and organiser screen:
 - **Tournament status:** only sensible moves are allowed.
 - **Validation:** unknown event RSVP is a 404, a court can't close before it opens, and asking for a second OTP within a minute is refused.
 
+## 5. Behaviour while you use it (`interaction.spec.ts`)
+- **Focused text fields:** they show one orange border, with no second ring inside. Buttons still show a ring when you move to them with Tab.
+- **Popups vs menus:** opening a popup closes any open menu, and only one header menu is open at a time.
+- **Closing menus:** a menu closes on a tap outside, on Esc and when you change page.
+- **Closing popups:** Esc closes popups, and the page behind can't scroll while one is open.
+- **Event, shop and tournament pages:** the first card sits on top of the coloured header, not under it.
+
+## 6. Visual tour (`tour.spec.ts`, for a person to look at)
+`TOUR=1 npx playwright test e2e/tour.spec.ts` saves screenshots to `e2e/.results/tour/`, for phone and desktop. They cover every popup, menu, sheet, toast and busy screen. Look through them after any UI change.
+
 ## Using the Playwright AI agents in Claude Code
 `npx playwright init-agents --loop=claude` already set up three agents in `.claude/agents/`, plus `.mcp.json`:
 - **Planner:** explores the running app and writes plans into this folder.

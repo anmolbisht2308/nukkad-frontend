@@ -5,6 +5,7 @@ import { useState } from "react";
 import { api, ApiError } from "@/lib/api";
 import type { Tournament } from "@/lib/host";
 import { pay, rupees, type PaymentOrder } from "@/lib/pay";
+import { ModalEffects } from "@/components/ui/overlay";
 
 type Player = { name: string; phone: string };
 
@@ -44,9 +45,11 @@ function Sheet({ t, onClose, onDone }: { t: Tournament; onClose: () => void; onD
 
   return (
     <>
+      <ModalEffects onClose={onClose} />
       <motion.div className="fixed inset-0 z-[80] bg-black/50 backdrop-blur-sm" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} />
       <motion.div
         role="dialog"
+            aria-modal="true"
         aria-label={`Register for ${t.title}`}
         className="fixed inset-x-0 bottom-0 z-[81] mx-auto max-h-[90svh] w-full max-w-lg overflow-y-auto rounded-t-3xl bg-cream p-6 pb-10 shadow-2xl sm:bottom-6 sm:rounded-3xl"
         initial={{ y: "100%" }}
@@ -89,8 +92,8 @@ function Sheet({ t, onClose, onDone }: { t: Tournament; onClose: () => void; onD
                 {players.map((p, i) => (
                   <motion.div key={i} initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="flex gap-2">
                     <span className="grid w-8 shrink-0 place-items-center text-sm font-bold text-ink/60">{i + 1}</span>
-                    <input value={p.name} onChange={(e) => setPlayer(i, { name: e.target.value })} placeholder="Name" className="min-w-0 flex-1 rounded-xl border-2 border-ink/10 bg-white px-3 py-2 outline-none focus:border-saffron" />
-                    <input value={p.phone} onChange={(e) => setPlayer(i, { phone: e.target.value })} inputMode="numeric" placeholder="Phone (optional)" className="w-36 rounded-xl border-2 border-ink/10 bg-white px-3 py-2 text-sm outline-none focus:border-saffron" />
+                    <input value={p.name} onChange={(e) => setPlayer(i, { name: e.target.value })} placeholder="Name" aria-label={`Player ${i + 1} name`} className="min-w-0 flex-1 rounded-xl border-2 border-ink/10 bg-white px-3 py-2 outline-none focus:border-saffron" />
+                    <input value={p.phone} onChange={(e) => setPlayer(i, { phone: e.target.value })} inputMode="numeric" placeholder="Phone" aria-label={`Player ${i + 1} phone (optional)`} className="w-32 rounded-xl border-2 border-ink/10 bg-white px-3 py-2 text-sm outline-none focus:border-saffron" />
                     {players.length > t.teamSize && (
                       <button type="button" onClick={() => setPlayers((ps) => ps.filter((_, j) => j !== i))} className="px-1 text-ink/60 hover:text-chili" aria-label="Remove player">
                         ×

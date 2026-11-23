@@ -188,7 +188,7 @@ export default function EventView({ initial }: { initial: EventDetail }) {
         </div>
       </section>
 
-      <div className="mx-auto -mt-10 grid max-w-5xl gap-6 px-5 md:grid-cols-[1fr_20rem]">
+      <div className="relative z-10 mx-auto -mt-10 grid max-w-5xl gap-6 px-5 md:grid-cols-[1fr_20rem]">
         <div className="min-w-0 space-y-6">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, ease }} className="rounded-3xl bg-white p-6 shadow-[0_20px_60px_-35px_rgba(0,0,0,0.35)]">
             <h2 className="font-display text-2xl font-extrabold">About</h2>

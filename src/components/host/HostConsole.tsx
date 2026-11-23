@@ -13,7 +13,7 @@ const input = "w-full rounded-2xl border-2 border-ink/10 bg-white px-4 py-2.5 ou
 
 function Stepper({ v, set, label }: { v: number; set: (n: number) => void; label: string }) {
   return (
-    <div className="flex items-center rounded-xl bg-ink/5">
+    <div className="flex items-center rounded-xl bg-ink/5 ring-saffron focus-within:ring-2">
       <button type="button" onClick={() => set(Math.max(0, v - 1))} className="px-2.5 py-1.5 text-lg leading-none" aria-label={`${label}: minus one`}>−</button>
       <input aria-label={label} value={v} onChange={(e) => set(Math.max(0, Number(e.target.value.replace(/\D/g, "")) || 0))} inputMode="numeric" className="w-12 bg-transparent text-center font-mono font-bold tabular-nums outline-none" />
       <button type="button" onClick={() => set(v + 1)} className="px-2.5 py-1.5 text-lg leading-none" aria-label={`${label}: plus one`}>+</button>

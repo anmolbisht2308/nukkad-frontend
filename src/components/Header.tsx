@@ -9,6 +9,7 @@ import { BRAND } from "@/lib/brand";
 import { useAuth } from "./Auth";
 import { useCity } from "./City";
 import { useLang, type Key } from "./Lang";
+import { useMenu } from "./ui/overlay";
 
 const links: { href: string; label: Key; emoji: string }[] = [
   { href: "/pulse", label: "pulse", emoji: "⚡" },
@@ -33,9 +34,10 @@ function useUnread(enabled: boolean, path: string) {
 function CityPicker({ dark }: { dark: boolean }) {
   const { city, cities, setCity } = useCity();
   const [open, setOpen] = useState(false);
+  const ref = useMenu<HTMLDivElement>(open, () => setOpen(false));
   return (
-    <div className="relative">
-      <button onClick={() => setOpen(!open)} className={`flex max-w-[8.5rem] items-center gap-1 truncate rounded-full px-2 py-1 text-[11px] font-semibold uppercase tracking-wider transition ${dark ? "bg-mint/15 text-mint hover:bg-mint/25" : "bg-mint/20 text-emerald-700 hover:bg-mint/30"}`}>
+    <div ref={ref} className="relative">
+      <button onClick={() => setOpen(!open)} aria-expanded={open} aria-haspopup="menu" aria-label={`City: ${city.name}`} className={`flex max-w-[8.5rem] items-center gap-1 truncate rounded-full px-2 py-1 text-[11px] font-semibold uppercase tracking-wider transition ${dark ? "bg-mint/15 text-mint hover:bg-mint/25" : "bg-mint/20 text-emerald-700 hover:bg-mint/30"}`}>
         <span className="truncate">{city.name}</span> <span className="text-[8px]">▼</span>
       </button>
       <AnimatePresence>
@@ -66,6 +68,7 @@ function CityPicker({ dark }: { dark: boolean }) {
 function AccountMenu({ dark }: { dark: boolean }) {
   const { user, logout } = useAuth();
   const [open, setOpen] = useState(false);
+  const ref = useMenu<HTMLDivElement>(open, () => setOpen(false));
   if (!user) return null;
   const items = [
     { href: "/me", label: "My coupons & points" },
@@ -81,14 +84,13 @@ function AccountMenu({ dark }: { dark: boolean }) {
     ...(user.role === "organizer" || user.role === "admin" ? [{ href: "/host", label: "Organiser console" }] : []),
   ];
   return (
-    <div className="relative">
-      <button onClick={() => setOpen(!open)} aria-label="Account" className={`grid h-8 w-8 place-items-center rounded-full text-xs font-bold ${dark ? "bg-white/15" : "bg-ink text-cream"}`}>
+    <div ref={ref} className="relative">
+      <button onClick={() => setOpen(!open)} aria-label="Account" aria-expanded={open} aria-haspopup="menu" className={`grid h-8 w-8 place-items-center rounded-full text-xs font-bold ${dark ? "bg-white/15" : "bg-ink text-cream"}`}>
         {(user.name ?? user.phone).slice(0, 1).toUpperCase()}
       </button>
       <AnimatePresence>
         {open && (
           <>
-            <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
             <motion.div initial={{ opacity: 0, y: -6, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -6 }} className="absolute right-0 top-10 z-50 w-60 overflow-hidden rounded-2xl bg-white p-1 text-ink shadow-2xl ring-1 ring-ink/5">
               <p className="px-3 pb-1 pt-2 text-xs text-ink/60">{user.name ?? `+91 ${user.phone}`}</p>
               {items.map((i) => (

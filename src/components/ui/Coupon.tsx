@@ -6,6 +6,7 @@ import { createContext, useContext, useState, type ReactNode } from "react";
 import { api, type Business } from "@/lib/api";
 import { useAuth } from "../Auth";
 import { toast } from "@/components/ui/Toast";
+import { ModalEffects } from "@/components/ui/overlay";
 
 type Shown = { code: string; title: string; business: Pick<Business, "name" | "emoji" | "theme"> };
 type Ctx = { claim: (dealId: string, title: string, business: Shown["business"]) => void; show: (s: Shown) => void };
@@ -33,6 +34,7 @@ export function CouponProvider({ children }: { children: ReactNode }) {
       <AnimatePresence>
         {shown && (
           <>
+            <ModalEffects onClose={() => setShown(null)} />
             <motion.div className="fixed inset-0 z-[85] bg-black/60 backdrop-blur-sm" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShown(null)} />
             <motion.div
               className="fixed inset-x-4 top-1/2 z-[86] mx-auto max-w-sm -translate-y-1/2"

@@ -97,7 +97,7 @@ export default function BusinessView({ business: b, deals }: { business: Busines
         </div>
       </section>
 
-      <div className="mx-auto -mt-8 grid max-w-5xl gap-6 px-5 md:grid-cols-[1.4fr_1fr]">
+      <div className="relative z-10 mx-auto -mt-8 grid max-w-5xl gap-6 px-5 md:grid-cols-[1.4fr_1fr]">
         <div className="space-y-6">
           {soon && b.opening.date && (
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, ease }} className="relative rounded-3xl bg-ink p-6 text-cream shadow-xl">

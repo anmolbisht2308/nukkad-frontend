@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { api, ApiError, getToken, setToken, type User } from "@/lib/api";
 import { toast } from "@/components/ui/Toast";
+import { ModalEffects } from "@/components/ui/overlay";
 
 type Ctx = {
   user: User | null;
@@ -109,9 +110,11 @@ function LoginForm({ onClose, onDone }: { onClose: () => void; onDone: (u: User)
 
   return (
         <>
+          <ModalEffects onClose={onClose} />
           <motion.div className="fixed inset-0 z-[80] bg-black/50 backdrop-blur-sm" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} />
           <motion.div
             role="dialog"
+            aria-modal="true"
             aria-label="Log in"
             className="fixed inset-x-0 bottom-0 z-[81] mx-auto w-full max-w-md rounded-t-3xl bg-cream p-6 pb-10 text-ink shadow-2xl sm:bottom-auto sm:top-1/2 sm:-translate-y-1/2 sm:rounded-3xl"
             initial={{ y: "100%" }}

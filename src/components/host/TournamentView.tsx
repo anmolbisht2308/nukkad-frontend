@@ -116,7 +116,7 @@ export default function TournamentView({ initial }: { initial: TournamentDetail 
         </div>
       </section>
 
-      <div className="mx-auto -mt-10 grid max-w-5xl gap-6 px-5 md:grid-cols-[1fr_20rem]">
+      <div className="relative z-10 mx-auto -mt-10 grid max-w-5xl gap-6 px-5 md:grid-cols-[1fr_20rem]">
         <div className="min-w-0 space-y-8">
           {champion && (
             <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ type: "spring", stiffness: 200, damping: 16 }} className="rounded-3xl bg-gradient-to-r from-sun to-saffron p-6 text-ink shadow-xl">

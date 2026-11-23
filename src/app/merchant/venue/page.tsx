@@ -8,6 +8,7 @@ import { api, ApiError, type Theme } from "@/lib/api";
 import { rupees } from "@/lib/pay";
 import { dateChip, hourLabel, longDate, nextDays, rangeLabel, SPORT_META, type Court, type Sport } from "@/lib/play";
 import { toast } from "@/components/ui/Toast";
+import { ModalEffects } from "@/components/ui/overlay";
 
 type CalBooking = {
   _id: string;
@@ -325,6 +326,7 @@ export default function VenueDashboard() {
       <AnimatePresence>
         {modal && (
           <>
+            <ModalEffects onClose={() => setModal(null)} />
             <motion.div className="fixed inset-0 z-[70] bg-black/50 backdrop-blur-sm" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setModal(null)} />
             <motion.div
               initial={{ y: "100%" }}

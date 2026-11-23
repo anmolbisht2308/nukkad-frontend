@@ -21,6 +21,7 @@ import {
   type Venue,
 } from "@/lib/play";
 import { useAuth } from "../Auth";
+import { ModalEffects } from "@/components/ui/overlay";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 type Phase = "idle" | "creating" | "paying" | "done";
@@ -134,7 +135,6 @@ export default function BookingView({ venue, courts }: { venue: Venue; courts: C
       {/* hero */}
       <section className="relative overflow-hidden pb-14 pt-28 text-white" style={gradient(venue.theme)}>
         <motion.div className="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-white/10" animate={{ scale: [1, 1.08, 1] }} transition={{ duration: 6, repeat: Infinity }} />
-        <div className="absolute inset-x-10 bottom-6 top-24 hidden rounded-3xl border-2 border-white/10 sm:block" />
         <div className="relative mx-auto flex max-w-5xl flex-col items-start gap-4 px-5 sm:flex-row sm:items-end sm:gap-6">
           <motion.div initial={{ scale: 0, rotate: -30 }} animate={{ scale: 1, rotate: 0 }} transition={{ type: "spring", stiffness: 200, damping: 14 }} className="grid h-16 w-16 shrink-0 place-items-center rounded-[1.4rem] text-3xl sm:h-24 sm:w-24 sm:rounded-[2rem] sm:text-5xl bg-white/20 ring-1 ring-white/30 backdrop-blur sm:h-32 sm:w-32 sm:text-6xl">
             {venue.emoji}
@@ -292,6 +292,7 @@ export default function BookingView({ venue, courts }: { venue: Venue; courts: C
       <AnimatePresence>
         {phase === "done" && done && (
           <>
+            <ModalEffects onClose={() => setPhase("idle")} />
             <motion.div className="fixed inset-0 z-[70] bg-black/60 backdrop-blur-sm" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setPhase("idle")} />
             <motion.div initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.8, opacity: 0 }} transition={{ type: "spring", stiffness: 260, damping: 20 }} className="fixed inset-x-4 top-1/2 z-[71] mx-auto max-w-sm -translate-y-1/2 overflow-hidden rounded-3xl bg-white p-7 text-center shadow-2xl">
               <Burst />

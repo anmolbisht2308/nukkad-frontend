@@ -9,6 +9,7 @@ import { api, ApiError, type Business } from "@/lib/api";
 import { compact } from "@/lib/format";
 import type { Creator } from "@/lib/social";
 import { toast } from "@/components/ui/Toast";
+import { ModalEffects } from "@/components/ui/overlay";
 
 
 const NICHES = ["all", "food", "cafes", "desserts", "fitness", "running", "rides", "travel"];
@@ -31,6 +32,7 @@ function HireSheet({ creator, onClose }: { creator: Creator; onClose: () => void
   }, []);
   return (
     <>
+      <ModalEffects onClose={onClose} />
       <motion.div className="fixed inset-0 z-[80] bg-black/50 backdrop-blur-sm" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} />
       <motion.div initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 32 }} className="fixed inset-x-0 bottom-0 z-[81] mx-auto max-w-md rounded-t-3xl bg-cream p-6 pb-10 sm:bottom-auto sm:top-1/2 sm:-translate-y-1/2 sm:rounded-3xl">
         {state === "done" ? (
@@ -64,7 +66,7 @@ function HireSheet({ creator, onClose }: { creator: Creator; onClose: () => void
               ))}
             </select>
             <textarea required minLength={10} value={brief} onChange={(e) => setBrief(e.target.value)} placeholder="What should they post? e.g. A reel of our new waffles on opening weekend" className="mt-3 h-28 w-full rounded-2xl border-2 border-ink/10 bg-white px-4 py-3 outline-none focus:border-saffron" />
-            <label className="mt-3 flex items-center gap-2 rounded-2xl border-2 border-ink/10 bg-white px-4 py-3">
+            <label className="mt-3 flex items-center gap-2 rounded-2xl border-2 border-ink/10 bg-white px-4 py-3 focus-within:border-saffron">
               <span className="text-ink/60">₹</span>
               <input type="number" min={100} value={budget} onChange={(e) => setBudget(Number(e.target.value))} className="w-full bg-transparent outline-none" />
             </label>
